@@ -1,0 +1,74 @@
+local M = {
+	-- "glepnir/lspsaga.nvim",
+	-- -- event = "BufRead",
+	-- event = "LspAttach",
+	-- dependencies = { { "nvim-treesitter/nvim-treesitter", "nvim-tree/nvim-web-devicons" } },
+	-- -- branch = "version_2.2",
+	-- -- Use this commit because it the old version had better UI
+	-- -- commit = "b7b4777369b441341b2dcd45c738ea4167c11c9e",
+}
+
+-- function M.config()
+-- 	-- require("lspsaga").init_lsp_saga({
+-- 	-- 	code_action_lightbulb = {
+-- 	-- 		enable = false,
+-- 	-- 		enable_in_insert = false,
+-- 	-- 		cache_code_action = false,
+-- 	-- 		sign = true,
+-- 	-- 		update_time = 150,
+-- 	-- 		sign_priority = 20,
+-- 	-- 		virtual_text = false,
+-- 	-- 	},
+-- 	-- 	rename_action_quit = "<ESC>",
+-- 	-- })
+-- 	require("lspsaga").setup({
+--
+-- 		scroll_preview = {
+-- 			scroll_down = "<C-j>",
+-- 			scroll_up = "<C-k>",
+-- 		},
+-- 		lightbulb = {
+-- 			enable = false,
+-- 			enable_in_insert = false,
+-- 			sign = true,
+-- 			update_time = 150,
+-- 			sign_priority = 20,
+-- 			virtual_text = false,
+-- 		},
+-- 		finder = {
+-- 			edit = { "i", "<CR>" },
+-- 			vsplit = "v",
+-- 			split = "s",
+-- 			tabe = "t",
+-- 			quit = { "q", "<ESC>" },
+-- 		},
+-- 		diagnostic = {
+-- 			show_code_action = false,
+-- 		},
+-- 		code_action = {
+-- 			keys = {
+-- 				quit = { "q", "<ESC>" },
+-- 				exec = "<CR>",
+-- 			},
+-- 		},
+-- 		rename = {
+-- 			quit = "q",
+-- 			exec = "<CR>",
+-- 			mark = "x",
+-- 			confirm = "<CR>",
+-- 			in_select = true,
+-- 		},
+-- 		symbol_in_winbar = {
+-- 			enable = false,
+-- 			-- separator = " ",
+-- 			hide_keyword = false,
+-- 			show_file = false,
+-- 			folder_level = 0,
+-- 			respect_root = false,
+-- 			color_mode = false,
+-- 		},
+-- 	})
+-- end
+
+return M
+-- return {}
