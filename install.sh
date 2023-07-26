@@ -28,7 +28,7 @@ fi
 if [[ $(find nvim -name "lazy.lua") ]]
 then
 	echo "Installing NVIM with LAZY package manager"
-	cp -r "$NVIM_CONFIG" "$CONFIG_DIR"
-  echo -e nvim --headless +Lazy Sync +qa
+	ln -s "$NVIM_CONFIG" "$CONFIG_DIR"
+  nvim --headless +Lazy Sync +qa
 	exit 0
 fi
