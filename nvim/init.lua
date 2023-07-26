@@ -20,7 +20,7 @@ vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
 	-- Detect tabstop and shiftwidth automatically
-	"tpope/vim-sleuth",
+	-- "tpope/vim-sleuth",
 	-- LSP
 	{
 		"neovim/nvim-lspconfig",
@@ -138,6 +138,8 @@ vim.wo.wrap = false
 opt.autoindent = true
 vim.wo.signcolumn = "yes"
 opt.tabstop = 4
+opt.shiftwidth = 0
+opt.relativenumber = true
 opt.signcolumn = "yes"
 opt.hidden = true
 opt.updatetime = 250
@@ -149,6 +151,20 @@ opt.completeopt = "menuone,noselect,noinsert"
 opt.termguicolors = true
 
 -- [[ Keymaps ]]
+vim.keymap.set("n", "^", "<C-6>", { noremap = true })
+-- NetRW
+vim.keymap.set({ "n" }, "<leader>pf", "<cmd>Ex<cr>")
+vim.api.nvim_create_autocmd('filetype', {
+	pattern = 'netrw',
+	desc = "Netrw keymaps",
+	callback = function()
+		local key = function(lhs, rhs)
+			vim.keymap.set('n', lhs, rhs, { remap = true, buffer = true })
+		end
+		key("q", "<cmd>bd<cr>")
+		key("u", "-")
+	end
+})
 
 vim.keymap.set({ "n", "v" }, "<Space>", "<Nop>", { silent = true })
 
@@ -278,10 +294,6 @@ local on_attach = function(client, buffer)
 						t = { "<cmd>GoModTidy<cr>", "Mod Tidy" },
 					},
 				},
-				-- f = {
-				-- 	cond = cap.documentFormatting,
-				-- 	{ require("plugins.lsp.formatting").format, "Format Document" },
-				-- },
 				d = { vim.diagnostic.open_float, "Line Diagnostics" },
 				l = {
 					name = "+lsp",
