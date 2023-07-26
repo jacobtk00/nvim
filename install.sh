@@ -25,10 +25,7 @@ then
 	exit 1
 fi
 
-if [[ $(find nvim -name "lazy.lua") ]]
-then
-	echo "Installing NVIM with LAZY package manager"
-	cp -r "$NVIM_CONFIG" "$CONFIG_DIR"
-  echo -e nvim --headless +Lazy Sync +qa
-	exit 0
-fi
+# instead of just copying use symlink so that updates in this folder reflect in
+# config folder
+ln -s "$NVIM_CONFIG" "$CONFIG_DIR"
+# cp -r "$NVIM_CONFIG" "$CONFIG_DIR"
