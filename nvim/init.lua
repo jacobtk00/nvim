@@ -84,18 +84,17 @@ require("lazy").setup({
 		},
 	},
 	{
-		"navarasu/onedark.nvim",
+		"ellisonleao/gruvbox.nvim",
 		priority = 1000,
 		config = function()
-			vim.cmd.colorscheme("onedark")
+			vim.cmd.colorscheme("gruvbox")
 		end,
 	},
 	{
 		"nvim-lualine/lualine.nvim",
 		opts = {
 			options = {
-				icons_enabled = false,
-				theme = "onedark",
+				icons_enabled = true,
 				component_separators = "|",
 				section_separators = "",
 			},
@@ -139,6 +138,7 @@ vim.wo.wrap = false
 opt.autoindent = true
 vim.wo.signcolumn = "yes"
 opt.tabstop = 4
+opt.signcolumn = "yes"
 opt.hidden = true
 opt.updatetime = 250
 opt.timeoutlen = 300
@@ -258,14 +258,7 @@ vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Go to next diagnos
 vim.keymap.set("n", "<leader>cd", vim.diagnostic.open_float, { desc = "Open floating diagnostic message" })
 
 local on_attach = function(client, buffer)
-	local nmap = function(keys, func, desc)
-		if desc then
-			desc = "LSP: " .. desc
-		end
-		vim.keymap.set("n", keys, func, { buffer = buffer, desc = desc })
-	end
-
-	local cap = client.server_capabilities
+	-- local cap = client.server_capabilities
 	local keymaps = {
 		buffer = buffer,
 		["<leader>"] = {
@@ -285,17 +278,18 @@ local on_attach = function(client, buffer)
 						t = { "<cmd>GoModTidy<cr>", "Mod Tidy" },
 					},
 				},
-				f = {
-					cond = cap.documentFormatting,
-					{ require("plugins.lsp.formatting").format, "Format Document" },
-				},
+				-- f = {
+				-- 	cond = cap.documentFormatting,
+				-- 	{ require("plugins.lsp.formatting").format, "Format Document" },
+				-- },
 				d = { vim.diagnostic.open_float, "Line Diagnostics" },
 				l = {
 					name = "+lsp",
 					i = { "<cmd>LspInfo<cr>", "Lsp Info" },
 					a = { "<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>", "Add Folder" },
 					r = { "<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>", "Remove Folder" },
-					l = { "<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>", "List Folders" },
+					l = { "<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>",
+						"List Folders" },
 				},
 			},
 			x = { d = { "<cmd>Telescope diagnostics<cr>", "Search Diagnostics" } },
@@ -320,8 +314,10 @@ local on_attach = function(client, buffer)
 		["K"] = { "<cmd>lua vim.lsp.buf.hover()<CR>", "Hover" },
 		["[d"] = { "<cmd>lua vim.diagnostic.goto_prev()<CR>", "Next Diagnostic" },
 		["]d"] = { "<cmd>lua vim.diagnostic.goto_next()<CR>", "Prev Diagnostic" },
-		["[e"] = { "<cmd>lua vim.diagnostic.goto_prev({severity = vim.diagnostic.severity.ERROR})<CR>", "Next Error" },
-		["]e"] = { "<cmd>lua vim.diagnostic.goto_next({severity = vim.diagnostic.severity.ERROR})<CR>", "Prev Error" },
+		["[e"] = { "<cmd>lua vim.diagnostic.goto_prev({severity = vim.diagnostic.severity.ERROR})<CR>",
+			"Next Error" },
+		["]e"] = { "<cmd>lua vim.diagnostic.goto_next({severity = vim.diagnostic.severity.ERROR})<CR>",
+			"Prev Error" },
 		["[w"] = {
 			"<cmd>lua vim.diagnostic.goto_prev({severity = vim.diagnostic.severity.WARNING})<CR>",
 			"Next Warning",
