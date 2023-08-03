@@ -19,8 +19,6 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
-	-- Detect tabstop and shiftwidth automatically
-	-- "tpope/vim-sleuth",
 	-- LSP
 	{
 		"neovim/nvim-lspconfig",
@@ -42,7 +40,7 @@ require("lazy").setup({
 		},
 	},
 
-	{ "folke/which-key.nvim",          opts = {} },
+	{ "folke/which-key.nvim",  opts = {} },
 	{
 		"lewis6991/gitsigns.nvim",
 		opts = {
@@ -85,10 +83,13 @@ require("lazy").setup({
 	},
 	{
 		"ellisonleao/gruvbox.nvim",
-		priority = 1000,
-		config = function()
+		opts = {
+			transparent_mode = true
+		},
+		init = function()
 			vim.cmd.colorscheme("gruvbox")
 		end,
+		priority = 1000,
 	},
 	{
 		"nvim-lualine/lualine.nvim",
@@ -101,29 +102,56 @@ require("lazy").setup({
 		},
 	},
 	-- "gc" to comment visual regions/lines
-	{ "numToStr/Comment.nvim",         opts = {} },
+	{ "numToStr/Comment.nvim", opts = {} },
 	-- Fuzzy Finder (files, lsp, etc)
-	{ "nvim-telescope/telescope.nvim", branch = "0.1.x", dependencies = { "nvim-lua/plenary.nvim" } },
 	{
-		"nvim-telescope/telescope-fzf-native.nvim",
-		build = "make",
-		cond = function()
-			return vim.fn.executable("make") == 1
-		end,
-	},
-	{
-		"nvim-treesitter/nvim-treesitter",
+		"nvim-telescope/telescope.nvim",
 		dependencies = {
-			"nvim-treesitter/nvim-treesitter-textobjects",
+			'nvim-lua/plenary.nvim',
+			{
+				"nvim-telescope/telescope-fzf-native.nvim",
+				build = "make",
+				config = function()
+					pcall(require("telescope").load_extension, "fzf")
+				end,
+			}
 		},
-		build = ":TSUpdate",
+		keys = {
+			{
+				"<leader>fo",
+				function() require("telescope.builtin").oldfiles() end,
+				desc = "[?] Find recently opened files",
+			},
+			{ "<leader>b",  function() require("telescope.builtin").buffers() end,    desc = "[ ] Find existing buffers" },
+			{ "<leader>fp", function() require("telescope.builtin").git_files() end,  desc = "Search [G]it [F]iles" },
+			{ "<leader>ff", function() require("telescope.builtin").find_files() end, desc = "[S]earch [F]iles" },
+			{ "<leader>fg", function() require("telescope.builtin").live_grep() end,  desc = "[S]earch by [G]rep" },
+		},
 	},
+	{
+		{
+			"nvim-treesitter/nvim-treesitter",
+			dependencies = { "windwp/nvim-ts-autotag" },
+			config = function()
+				require("nvim-treesitter.configs").setup({
+					ensure_installed = { "c", "go", "lua", "tsx", "typescript", "vimdoc", "vim", "bash", "comment" },
+					auto_install = false,
+					highlight = { enable = true },
+					indent = { enable = true },
+					autotag = { enable = true },
+					additional_vim_regex_highlighting = false,
+				})
+			end,
+			build = ":TSUpdate",
+		},
+	}
 }, {})
 
--- [[ Setting options ]]
--- See `:help vim.o`
--- NOTE: You can change these options as you wish!
 
+
+
+-- [[ Setting options ]]
+g.c_syntax_for_h = 1
 vim.wo.number = true
 opt.hlsearch = false
 opt.mouse = "a"
@@ -136,11 +164,10 @@ opt.ignorecase = true
 opt.smartcase = true
 vim.wo.wrap = false
 opt.autoindent = true
-vim.wo.signcolumn = "yes"
+opt.signcolumn = "yes"
 opt.tabstop = 4
 opt.shiftwidth = 0
 opt.relativenumber = true
-opt.signcolumn = "yes"
 opt.hidden = true
 opt.updatetime = 250
 opt.timeoutlen = 300
@@ -177,96 +204,6 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 	pattern = "*",
 })
 
-require("telescope").setup({
-	defaults = {
-		mappings = {
-			i = {
-				["<C-u>"] = false,
-				["<C-d>"] = false,
-			},
-		},
-	},
-})
-
--- Enable telescope fzf native, if installed
-pcall(require("telescope").load_extension, "fzf")
-
--- See `:help telescope.builtin`
-vim.keymap.set("n", "<leader>fo", require("telescope.builtin").oldfiles, { desc = "[?] Find recently opened files" })
-vim.keymap.set("n", "<leader>b", require("telescope.builtin").buffers, { desc = "[ ] Find existing buffers" })
-vim.keymap.set("n", "<leader>/", function()
-	-- You can pass additional configuration to telescope to change theme, layout, etc.
-	require("telescope.builtin").current_buffer_fuzzy_find(require("telescope.themes").get_dropdown({
-		winblend = 10,
-		previewer = false,
-	}))
-end, { desc = "[/] Fuzzily search in current buffer" })
-
-vim.keymap.set("n", "<leader>fp", require("telescope.builtin").git_files, { desc = "Search [G]it [F]iles" })
-vim.keymap.set("n", "<leader>ff", require("telescope.builtin").find_files, { desc = "[S]earch [F]iles" })
-vim.keymap.set("n", "<leader>fg", require("telescope.builtin").live_grep, { desc = "[S]earch by [G]rep" })
-vim.keymap.set("n", "<leader>xd", require("telescope.builtin").diagnostics, { desc = "[S]earch [D]iagnostics" })
-
--- [[ Configure Treesitter ]]
-require("nvim-treesitter.configs").setup({
-	ensure_installed = { "c", "cpp", "go", "lua", "python", "rust", "tsx", "typescript", "vimdoc", "vim", "bash" },
-	auto_install = false,
-	highlight = { enable = true },
-	indent = { enable = true },
-	incremental_selection = {
-		enable = true,
-		keymaps = {
-			init_selection = "<CR>",
-			scope_incremental = "<CR>",
-			node_incremental = "<TAB>",
-			node_decremental = "<S-TAB>",
-		},
-	},
-	textobjects = {
-		select = {
-			enable = true,
-			lookahead = true, -- Automatically jump forward to textobj, similar to targets.vim
-			keymaps = {
-				-- You can use the capture groups defined in textobjects.scm
-				["aa"] = "@parameter.outer",
-				["ia"] = "@parameter.inner",
-				["af"] = "@function.outer",
-				["if"] = "@function.inner",
-				["ac"] = "@class.outer",
-				["ic"] = "@class.inner",
-			},
-		},
-		move = {
-			enable = true,
-			set_jumps = true, -- whether to set jumps in the jumplist
-			goto_next_start = {
-				["]m"] = "@function.outer",
-				["]]"] = "@class.outer",
-			},
-			goto_next_end = {
-				["]M"] = "@function.outer",
-				["]["] = "@class.outer",
-			},
-			goto_previous_start = {
-				["[m"] = "@function.outer",
-				["[["] = "@class.outer",
-			},
-			goto_previous_end = {
-				["[M"] = "@function.outer",
-				["[]"] = "@class.outer",
-			},
-		},
-		swap = {
-			enable = true,
-			swap_next = {
-				["<leader>a"] = "@parameter.inner",
-			},
-			swap_previous = {
-				["<leader>A"] = "@parameter.inner",
-			},
-		},
-	},
-})
 
 -- Diagnostic keymaps
 vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Go to previous diagnostic message" })
@@ -275,6 +212,7 @@ vim.keymap.set("n", "<leader>cd", vim.diagnostic.open_float, { desc = "Open floa
 
 local on_attach = function(client, buffer)
 	-- local cap = client.server_capabilities
+	client.server_capabilities.semanticTokensProvider = nil
 	local keymaps = {
 		buffer = buffer,
 		["<leader>"] = {
@@ -316,28 +254,14 @@ local on_attach = function(client, buffer)
 			t = { "<cmd>Telescope lsp_type_definitions<cr>", "Goto Type Definition" },
 			i = { "<cmd>lua vim.lsp.buf.implementation()<CR>", "Goto Implementation" },
 		},
-		["<C-k>"] = {
-			"<cmd>lua vim.lsp.buf.signature_help()<CR>",
-			"Signature Help",
-			mode = { --[["n", ]]
-				"i",
-			},
-		},
+		["<C-k>"] = { "<cmd>lua vim.lsp.buf.signature_help()<CR>", "Signature Help", mode = { "i" } },
 		["K"] = { "<cmd>lua vim.lsp.buf.hover()<CR>", "Hover" },
 		["[d"] = { "<cmd>lua vim.diagnostic.goto_prev()<CR>", "Next Diagnostic" },
 		["]d"] = { "<cmd>lua vim.diagnostic.goto_next()<CR>", "Prev Diagnostic" },
-		["[e"] = { "<cmd>lua vim.diagnostic.goto_prev({severity = vim.diagnostic.severity.ERROR})<CR>",
-			"Next Error" },
-		["]e"] = { "<cmd>lua vim.diagnostic.goto_next({severity = vim.diagnostic.severity.ERROR})<CR>",
-			"Prev Error" },
-		["[w"] = {
-			"<cmd>lua vim.diagnostic.goto_prev({severity = vim.diagnostic.severity.WARNING})<CR>",
-			"Next Warning",
-		},
-		["]w"] = {
-			"<cmd>lua vim.diagnostic.goto_next({severity = vim.diagnostic.severity.WARNING})<CR>",
-			"Prev Warning",
-		},
+		["[e"] = { "<cmd>lua vim.diagnostic.goto_prev({severity = vim.diagnostic.severity.ERROR})<CR>", "Next Error" },
+		["]e"] = { "<cmd>lua vim.diagnostic.goto_next({severity = vim.diagnostic.severity.ERROR})<CR>", "Prev Error" },
+		["[w"] = { "<cmd>lua vim.diagnostic.goto_prev({severity = vim.diagnostic.severity.WARNING})<CR>", "Next Warning", },
+		["]w"] = { "<cmd>lua vim.diagnostic.goto_next({severity = vim.diagnostic.severity.WARNING})<CR>", "Prev Warning", },
 	}
 
 	-- Create a command `:Format` local to the LSP buffer
@@ -431,5 +355,6 @@ cmp.setup({
 		{ name = "luasnip" },
 	},
 })
+
 
 -- The line beneath this is called `modeline`. See `:help modeline`
