@@ -7,7 +7,7 @@ function M.setup(options)
 
 	local formatting = null_ls.builtins.formatting
 	local code_actions = null_ls.builtins.code_actions
-	-- local diagnostics = null_ls.builtins.diagnostics
+	local diagnostics = null_ls.builtins.diagnostics
 
 	local sources = {
 		formatting.prettier.with({ --[[ filetypes = prettier_filetypes, ]]
@@ -34,6 +34,12 @@ function M.setup(options)
 		-- 	},
 		-- }),
 
+		formatting.eslint_d,
+		code_actions.eslint_d,
+		diagnostics.eslint_d.with({
+			diagnostics_format = "[eslint] #{m}\n(#{c})",
+		}),
+
 		-- diagnostics.revive,
 		require("typescript.extensions.null-ls.code-actions"),
 	}
@@ -49,6 +55,18 @@ function M.setup(options)
 		save_after_format = false,
 		on_attach = options.on_attach,
 	})
+
+	--  'lua require("null-ls").toggle("eslint_d")'
+	vim.api.nvim_create_user_command("EslintToggle", function()
+		local ft = vim.bo.filetype
+		local uses_eslint = ft == "javascript"
+			or ft == "javascriptreact"
+			or ft == "typescript"
+			or ft == "typescriptreact"
+		if M.has_formatter(ft) and uses_eslint then
+			require("null-ls").toggle("eslint_d")
+		end
+	end, {})
 end
 
 function M.has_formatter(ft)

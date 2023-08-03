@@ -22,6 +22,9 @@ return {
 				-- ["cmp.entry.get_documentation"] = true,
 			},
 		},
+		messages = {
+			enabled = false,
+		},
 		cmdline = { view = "cmdline" },
 		presets = {
 			bottom_search = true,
