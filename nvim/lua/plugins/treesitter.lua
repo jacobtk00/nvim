@@ -9,7 +9,16 @@ return {
 		},
 		config = function()
 			require("nvim-treesitter.configs").setup({
-				ensure_installed = { "c", "go", "lua", "typescript", "javascript", "tsx" },
+				ensure_installed = {
+					"c",
+					"go",
+					"lua",
+					"typescript",
+					"javascript",
+					"tsx",
+					"markdown",
+					"markdown_inline",
+				},
 				autotag = {
 					enable = true,
 					enable_rename = true,

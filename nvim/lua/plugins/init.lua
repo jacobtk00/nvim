@@ -4,7 +4,6 @@ return {
 	"b0o/SchemaStore.nvim",
 	"MunifTanjim/nui.nvim",
 	"jose-elias-alvarez/typescript.nvim",
-	"ray-x/go.nvim",
 	"ray-x/guihua.lua",
 	"williamboman/mason-lspconfig.nvim",
 	"folke/twilight.nvim",
@@ -13,6 +12,21 @@ return {
 	{ "tpope/vim-cucumber", lazy = false },
 
 	{ "shortcuts/no-neck-pain.nvim", version = "*", cmd = { "NoNeckPain", "NoNeckPainResize" } },
+
+	{
+		"ray-x/go.nvim",
+		dependencies = { -- optional packages
+			"ray-x/guihua.lua",
+			"neovim/nvim-lspconfig",
+			"nvim-treesitter/nvim-treesitter",
+		},
+		config = function()
+			require("go").setup()
+		end,
+		event = { "CmdlineEnter" },
+		ft = { "go", "gomod" },
+		build = ':lua require("go.install").update_all_sync()', -- if you need to install/update all binaries
+	},
 
 	-- TODO: IDK AB THIS MAYBE ????????????????
 	{
