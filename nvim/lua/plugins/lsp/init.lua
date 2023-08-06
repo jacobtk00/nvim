@@ -150,9 +150,11 @@ function M.config()
 
 	for server, opts in pairs(servers) do
 		opts = vim.tbl_deep_extend("force", {}, options, opts or {})
-		if server == "gopls" then
-			require("go").setup()
-		end
+
+		-- if server == "gopls" then
+		-- 	-- require("go").setup()
+		-- end
+
 		if server == "tsserver" then
 			require("typescript").setup({ server = opts })
 		else
