@@ -2,8 +2,9 @@ local M = {
 	"nvim-neotest/neotest",
 	dependencies = {
 		"antoinemadec/FixCursorHold.nvim",
-		"haydenmeade/neotest-jest",
+		-- "haydenmeade/neotest-jest",
 		"nvim-neotest/neotest-go",
+		"marilari88/neotest-vitest",
 	},
 	lazy = false,
 }
@@ -43,74 +44,80 @@ end
 function M.config()
 	-- For some reason i need this ?????
 	-- get neotest namespace (api call creates or returns namespace)
-	local neotest_ns = vim.api.nvim_create_namespace("neotest")
-	vim.diagnostic.config({
-		virtual_text = {
-			format = function(diagnostic)
-				local message = diagnostic.message:gsub("\n", " "):gsub("\t", " "):gsub("%s+", " "):gsub("^%s+", "")
-				return message
-			end,
-		},
-	}, neotest_ns)
-
+	-- local neotest_ns = vim.api.nvim_create_namespace("neotest")
+	-- vim.diagnostic.config({
+	-- 	virtual_text = {
+	-- 		format = function(diagnostic)
+	-- 			local message = diagnostic.message:gsub("\n", " "):gsub("\t", " "):gsub("%s+", " "):gsub("^%s+", "")
+	-- 			return message
+	-- 		end,
+	-- 	},
+	-- }, neotest_ns)
 	require("neotest").setup({
 		adapters = {
-			-- require("neotest-jest")({
-			-- 	jestCommand = "npm test --",
-			-- 	jestConfigFile = "custom.jest.config.ts",
-			-- 	env = { CI = true },
-			-- 	cwd = function(path)
-			-- 		return vim.fn.getcwd()
-			-- 	end,
-			-- }),
-			require("neotest-go")({
-				experimental = {
-					test_table = true,
-				},
-				args = { "-count=1", "-timeout=60s" },
-			}),
+			require("neotest-vitest"),
 		},
-		summary = {
-			mappings = {
-				attach = "a",
-				expand = { "<CR>", "<2-LeftMouse>" },
-				expand_all = "e",
-				jumpto = "i",
-				output = "o",
-				run = "r",
-				short = "O",
-				stop = "s",
-			},
-			diagnostic = { enabled = true },
-		},
-		-- icons = {
-		-- 	expanded = "",
-		-- 	child_prefix = "",
-		-- 	child_indent = "",
-		-- 	final_child_prefix = "",
-		-- 	non_collapsible = "",
-		-- 	collapsed = "",
-		--
-		-- 	passed = "",
-		-- 	running = "",
-		-- 	failed = "",
-		-- 	unknown = "",
-		-- 	skipped = "",
-		-- },
-		-- summary = {
-		-- 	mappings = {
-		-- 		attach = "a",
-		-- 		expand = { "<CR>", "<2-LeftMouse>" },
-		-- 		expand_all = "e",
-		-- 		jumpto = "i",
-		-- 		output = "o",
-		-- 		run = "r",
-		-- 		short = "O",
-		-- 		stop = "s",
-		-- 	},
-		-- },
-		-- diagnostic = { enabled = true },
 	})
+
+	-- require("neotest").setup({
+	-- 	adapters = {
+	-- 		-- require("neotest-jest")({
+	-- 		-- 	jestCommand = "npm test --",
+	-- 		-- 	jestConfigFile = "custom.jest.config.ts",
+	-- 		-- 	env = { CI = true },
+	-- 		-- 	cwd = function(path)
+	-- 		-- 		return vim.fn.getcwd()
+	-- 		-- 	end,
+	-- 		-- }),
+	-- 		require("neotest-vitest"),
+	-- 		require("neotest-go")({
+	-- 			experimental = {
+	-- 				test_table = true,
+	-- 			},
+	-- 			args = { "-count=1", "-timeout=60s" },
+	-- 		}),
+	-- 	},
+	-- 	summary = {
+	-- 		mappings = {
+	-- 			attach = "a",
+	-- 			expand = { "<CR>", "<2-LeftMouse>" },
+	-- 			expand_all = "e",
+	-- 			jumpto = "i",
+	-- 			output = "o",
+	-- 			run = "r",
+	-- 			short = "O",
+	-- 			stop = "s",
+	-- 		},
+	-- 		diagnostic = { enabled = true },
+	-- 	},
+	-- 	icons = {
+	-- 		expanded = "",
+	-- 		child_prefix = "",
+	-- 		child_indent = "",
+	-- 		final_child_prefix = "",
+	-- 		non_collapsible = "",
+	-- 		collapsed = "",
+	--
+	-- 		passed = "",
+	-- 		running = "",
+	-- 		failed = "",
+	-- 		unknown = "",
+	-- 		skipped = "",
+	-- 	},
+	-- 	summary = {
+	-- 		mappings = {
+	-- 			attach = "a",
+	-- 			expand = { "<CR>", "<2-LeftMouse>" },
+	-- 			expand_all = "e",
+	-- 			jumpto = "i",
+	-- 			output = "o",
+	-- 			run = "r",
+	-- 			short = "O",
+	-- 			stop = "s",
+	-- 		},
+	-- 	},
+	-- 	diagnostic = { enabled = true },
+	-- })
 end
 
 return M
