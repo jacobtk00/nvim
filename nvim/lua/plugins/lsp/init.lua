@@ -52,7 +52,16 @@ function M.config()
 		cssls = {},
 		dockerls = {},
 		tsserver = {},
-		html = {},
+		html = {
+			filetypes = { "html" },
+			init_options = {
+				configurationSection = { "html", "css", "javascript" },
+				embeddedLanguages = {
+					css = true,
+					javascript = true,
+				},
+			},
+		},
 		jsonls = {
 			on_new_config = function(new_config)
 				new_config.settings.json.schemas = new_config.settings.json.schemas or {}
@@ -103,7 +112,9 @@ function M.config()
 				},
 			},
 		},
-		sqlls = {},
+		-- sqlls = {
+		-- 	single_file_support = true,
+		-- },
 		lua_ls = {
 			single_file_support = true,
 			settings = {

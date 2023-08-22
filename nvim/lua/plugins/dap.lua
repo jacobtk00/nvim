@@ -4,7 +4,6 @@ local M = {
 	dependencies = {
 		{
 			"rcarriga/nvim-dap-ui",
-
 			config = function()
 				require("dapui").setup()
 			end,
@@ -64,8 +63,106 @@ function M.init()
 	-- end, { desc = "Launch Lua Debugger" })
 end
 
+local keymap_restore = {}
+local dap_maps = {
+	{
+		key = "K",
+		cmd = "<Cmd>lua require('dap.ui.widgets').hover()<CR>",
+		desc = "Hover",
+	},
+	{
+		key = "db",
+		cmd = "<cmd>lua require('dap').toggle_breakpoint()<cr>",
+		desc = "Toggle Breakpoint",
+	},
+	{
+		key = "dc",
+		cmd = "<cmd>lua require('dap').continue()<cr>",
+		desc = "Continue",
+	},
+	{
+		key = "do",
+		cmd = "<cmd>lua require('dap').step_over()<cr>",
+		desc = "Step Over",
+	},
+	{
+		key = "di",
+		cmd = "<cmd>lua require('dap').step_into()<cr>",
+		desc = "Step Into",
+	},
+	{
+		key = "dw",
+		cmd = "<cmd>lua require('dap.ui.widgets').hover()<cr>",
+		desc = "Widgets",
+	},
+	{
+		key = "dr",
+		cmd = "<cmd>lua require('dap').repl.open()<cr>",
+		desc = "Repl",
+	},
+	{
+		key = "du",
+		cmd = "<cmd>lua require('dapui').toggle({})<cr>",
+		desc = "Dap UI",
+	},
+	{
+		key = "ds",
+		cmd = "<cmd>lua require('dap').terminate()<cr>",
+		desc = "Stop DAP",
+	},
+}
+
+function In_DapMap(key)
+	for _, map in pairs(dap_maps) do
+		if map.key == key then
+			return true
+		end
+	end
+	return false
+end
+
+function Setup_Keymaps()
+	for _, buf in pairs(vim.api.nvim_list_bufs()) do
+		local keymaps = vim.api.nvim_buf_get_keymap(buf, "n")
+		for _, keymap in pairs(keymaps) do
+			if In_DapMap(keymap.lhs) then
+				table.insert(keymap_restore, keymap)
+				vim.api.nvim_buf_del_keymap(buf, "n", keymap.lhs)
+			end
+		end
+	end
+	local function key(lhs, rhs, desc)
+		vim.api.nvim_set_keymap("n", lhs, rhs, { desc = desc, silent = true })
+	end
+
+	for _, map in pairs(dap_maps) do
+		key(map.key, map.cmd, map.desc)
+	end
+end
+
+function Restore_Keymaps()
+	print("Restoring keymaps")
+	for _, keymap in pairs(keymap_restore) do
+		vim.api.nvim_set_keymap(keymap.mode, keymap.lhs, keymap.rhs, {
+			silent = keymap.silent == 1,
+		})
+	end
+	keymap_restore = {}
+end
+
 function M.config()
 	local dap = require("dap")
+	dap.defaults.fallback.terminal_win_cmd = "tabnew"
+
+	dap.listeners.after["event_initialized"]["keymaps"] = function()
+		print("End debug session. Restoring keymaps")
+		Setup_Keymaps()
+	end
+
+	dap.listeners.after["event_terminated"]["keymaps"] = function()
+		print("End debug session. Restoring keymaps")
+		Restore_Keymaps()
+	end
 
 	require("nvim-dap-virtual-text").setup({})
 	require("dap-vscode-js").setup({

@@ -5,4 +5,6 @@ return {
 	require("plugins.colorscheme.midnight"),
 	require("plugins.colorscheme.tokyonight"),
 	require("plugins.colorscheme.oxocarbon"),
+	require("plugins.colorscheme.rosepine"),
+	require("plugins.colorscheme.vcdark"),
 }

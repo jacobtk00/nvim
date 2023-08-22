@@ -7,12 +7,12 @@ cleanup() {
   rm -rf "$CONFIG_DIR/nvim" 
   rm -rf "$HOME/.local/share/nvim/lazy"
   rm -rf "$HOME/.local/state/nvim/lazy"
+  rm -rf "$HOME/.local/share/nvim"
 }
 
 while getopts 'd' opt; do
   case "$opt" in
-    d) cleanup 2> /dev/null
-       exit 0 ;;
+    d) echo "removing nvim and all deps" && cleanup ; exit 1 ;;
     *) # do nothing
   esac
 done
