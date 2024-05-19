@@ -15,32 +15,18 @@ function M.setup(options)
 				"--no-semi", --[[ "--tab-width=4"  ]]
 			},
 		}),
-		-- formatting.black.with({ extra_args = { "--fast" } }),
-		formatting.stylua,
 		formatting.google_java_format,
-		-- formatting.shfmt.with({
-		-- 	filetypes = { "sh", "zsh", "bash" },
-		-- 	args = { "-i", "2" },
-		-- }),
 		formatting.goimports, -- need to add to path
+		code_actions.impl,
 		code_actions.gitsigns,
 		code_actions.gomodifytags,
-		-- null_ls.builtins.diagnostics.golangci_lint,
-		-- null_ls.builtins.diagnostics.revive,
-		-- null_ls.builtins.formatting.golines.with({
-		-- 	extra_args = {
-		-- 		"--max-len=180",
-		-- 		"--base-formatter=gofumpt",
-		-- 	},
-		-- }),
-
 		formatting.eslint_d,
-		code_actions.eslint_d,
+		code_actions.eslint_d.with({
+			only_local = "node_modules/.bin/eslint",
+		}),
 		diagnostics.eslint_d.with({
 			diagnostics_format = "[eslint] #{m}\n(#{c})",
 		}),
-
-		-- diagnostics.revive,
 		-- require("typescript.extensions.null-ls.code-actions"),
 	}
 	--root_dir = require("null-ls.utils").root_pattern(".null-ls-root", ".neoconf.json", ".git"),
@@ -57,6 +43,8 @@ function M.setup(options)
 	})
 
 	--  'lua require("null-ls").toggle("eslint_d")'
+
+	local SHOULD_USE_ESLINT = false
 	vim.api.nvim_create_user_command("EslintToggle", function()
 		local ft = vim.bo.filetype
 		local uses_eslint = ft == "javascript"
@@ -65,8 +53,19 @@ function M.setup(options)
 			or ft == "typescriptreact"
 		if M.has_formatter(ft) and uses_eslint then
 			require("null-ls").toggle("eslint_d")
+			SHOULD_USE_ESLINT = not SHOULD_USE_ESLINT
 		end
 	end, {})
+
+	vim.api.nvim_create_autocmd({ "BufEnter" }, {
+		pattern = { "*.js", "*.jsx", "*.ts", "*.tsx" },
+		-- command = "EslintToggle",
+		callback = function()
+			if require("null-ls").is_registered("eslint_d") and not SHOULD_USE_ESLINT then
+				require("null-ls").disable("eslint_d")
+			end
+		end,
+	})
 end
 
 function M.has_formatter(ft)
