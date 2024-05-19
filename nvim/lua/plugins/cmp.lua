@@ -5,7 +5,6 @@ local CMP = {
 	dependencies = {
 		"hrsh7th/cmp-nvim-lsp",
 		"hrsh7th/cmp-buffer",
-		"hrsh7th/cmp-cmdline",
 		"L3MON4D3/LuaSnip",
 	},
 }
@@ -17,29 +16,50 @@ function CMP.config()
 	require("luasnip.loaders.from_vscode").lazy_load()
 	luasnip.config.setup({})
 
-	cmp.setup.cmdline('/', {
-		mapping = cmp.mapping.preset.cmdline(),
-		sources = {
-			{ name = 'buffer' }
-		}
-	})
-
 	cmp.setup({
 		snippet = {
 			expand = function(args)
 				luasnip.lsp_expand(args.body)
 			end,
 		},
+		completion = { completeopt = "menu,menuone,noinsert", docs_initially_visible = false },
+		formatting = {
+			format = function(_entry, vim_item)
+				local a = vim_item.abbr
+				if #a > 20 then
+					vim_item.abbr = string.sub(a, 1, 20) .. "..."
+				end
+
+				local w = vim_item.word
+				if #w > 20 then
+					vim_item.word = string.sub(w, 1, 20) .. "..."
+				end
+
+				local m = vim_item.menu and vim_item.menu or ""
+				if #m > 20 then
+					vim_item.menu = string.sub(m, 1, 20) .. "..."
+				end
+				return vim_item
+			end,
+		},
+
 		mapping = cmp.mapping.preset.insert({
-			["<C-n>"] = cmp.mapping.select_next_item(),
-			["<C-p>"] = cmp.mapping.select_prev_item(),
-			["<C-k>"] = cmp.mapping.scroll_docs(-4),
-			["<C-j>"] = cmp.mapping.scroll_docs(4),
-			["<C-Space>"] = cmp.mapping.complete({}),
+			["<c-n>"] = cmp.mapping.select_next_item(),
+			["<c-p>"] = cmp.mapping.select_prev_item(),
+			["<c-u>"] = cmp.mapping.scroll_docs(-4),
+			["<c-d>"] = cmp.mapping.scroll_docs(4),
+			["<c-Space>"] = cmp.mapping.complete(),
 			["<CR>"] = cmp.mapping.confirm({
 				behavior = cmp.ConfirmBehavior.Replace,
 				select = true,
 			}),
+			["<C-l>"] = cmp.mapping(function()
+				if cmp.visible_docs() then
+					cmp.close_docs()
+				else
+					cmp.open_docs()
+				end
+			end),
 			["<Tab>"] = cmp.mapping(function(fallback)
 				if cmp.visible() then
 					cmp.select_next_item()

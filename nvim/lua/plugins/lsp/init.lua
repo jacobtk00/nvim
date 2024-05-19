@@ -4,7 +4,16 @@ local LSP = {
 	dependencies = {
 		"williamboman/mason-lspconfig.nvim",
 		{ "williamboman/mason.nvim", config = true },
-		{ "j-hui/fidget.nvim",       tag = "legacy", opts = {} },
+		{
+			"j-hui/fidget.nvim",
+			tag = "legacy",
+			event = "LspAttach",
+			enabled = function()
+				return vim.bo.filetype ~= "java"
+			end,
+		},
+		"b0o/SchemaStore.nvim",
+		"someone-stole-my-name/yaml-companion.nvim",
 	},
 }
 
@@ -23,19 +32,22 @@ function LSP.config()
 	mason_lspconfig.setup({ ensure_installed = vim.tbl_keys(servers) })
 	mason_lspconfig.setup_handlers({
 		function(server_name)
-			require("lspconfig")[server_name].setup({
-				capabilities = capabilities,
-				on_attach = on_attach,
-				settings = servers[server_name],
-				filetypes = (servers[server_name] or {}).filetypes,
-				flags = { debounce_text_changes = 150 }
-			})
+			if server_name ~= "jdtls" then
+				require("lspconfig")[server_name].setup({
+					capabilities = capabilities,
+					on_attach = on_attach,
+					settings = servers[server_name],
+					filetypes = (servers[server_name] or {}).filetypes,
+					flags = { debounce_text_changes = 150 },
+				})
+			end
 		end,
 	})
 	require("plugins.null-ls").setup({
 		on_attach = on_attach,
 		capabilities = capabilities,
 	})
+	require("telescope").load_extension("yaml_schema")
 end
 
 return LSP
