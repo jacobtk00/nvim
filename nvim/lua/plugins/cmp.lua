@@ -5,7 +5,9 @@ local CMP = {
 	dependencies = {
 		"hrsh7th/cmp-nvim-lsp",
 		"hrsh7th/cmp-buffer",
-		"L3MON4D3/LuaSnip",
+		'saadparwaiz1/cmp_luasnip',
+		"rafamadriz/friendly-snippets",
+		{ "L3MON4D3/LuaSnip", version = "v2.*", build = "make install_jsregexp" }
 	},
 }
 
@@ -19,7 +21,9 @@ function CMP.config()
 	cmp.setup({
 		snippet = {
 			expand = function(args)
-				luasnip.lsp_expand(args.body)
+				-- luasnip.lsp_expand(args.body)
+				require("luasnip.loaders.from_vscode").lazy_load()
+				require("luasnip").lsp_expand(args.body)
 			end,
 		},
 		completion = { completeopt = "menu,menuone,noinsert", docs_initially_visible = false },
