@@ -1,6 +1,6 @@
 local servers = {
 	clangd = {},
-	gopls = {},
+	-- gopls = {},
 	-- rust_analyzer = {},
 	tsserver = {},
 	html = { filetypes = { "html", "twig", "hbs" } },

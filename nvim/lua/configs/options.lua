@@ -29,6 +29,13 @@ opt.scrolloff = 8
 opt.cmdheight = 0
 opt.pumheight = 12
 
+opt.shortmess:append("W") -- don't show written
+opt.shortmess:append("I") -- don't show the default intro message
+opt.shortmess:append("c") -- don't show redundant messages from ins-completion-menu
+opt.shortmess:append("C") -- don't show scanning msgs
+opt.shortmess:append("s") -- don't show search hit bottom
+opt.shortmess:append("F") -- don't show file info when editing a file
+
 -- Set completeopt to have a better completion experience, noinsert mode btw
 opt.completeopt = "menuone,noselect,noinsert"
 opt.termguicolors = true

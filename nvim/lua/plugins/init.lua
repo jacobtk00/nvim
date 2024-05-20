@@ -86,12 +86,13 @@ return {
 
 	{
 		"stevearc/dressing.nvim",
-		commit = "1f2d120",
+		-- commit = "1f2d120",
 		event = "BufReadPost",
 		opts = {
 			input = { win_options = { winblend = 0 } },
 		},
 	},
+
 	{
 		"nvim-lualine/lualine.nvim",
 		event = "VeryLazy",
