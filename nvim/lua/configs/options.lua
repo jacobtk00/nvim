@@ -19,7 +19,7 @@ opt.smartcase = true
 vim.wo.wrap = false
 opt.autoindent = true
 opt.signcolumn = "yes"
-opt.tabstop = 2
+opt.tabstop = 4
 opt.shiftwidth = 0
 opt.relativenumber = true
 opt.hidden = true
@@ -28,6 +28,7 @@ opt.timeoutlen = 300
 opt.scrolloff = 8
 opt.cmdheight = 0
 opt.pumheight = 12
+opt.splitright = true
 
 opt.shortmess:append("W") -- don't show written
 opt.shortmess:append("I") -- don't show the default intro message

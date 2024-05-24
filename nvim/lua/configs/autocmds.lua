@@ -20,8 +20,8 @@ vim.api.nvim_create_autocmd("TermOpen", {
 
 vim.api.nvim_create_autocmd("FileType", {
 	pattern = { "qf", "help", "man", "notify",
-				"lspinfo", "spectre_panel", "startuptime",
-				"tsplayground", "PlenaryTestPopup",
+		"lspinfo", "spectre_panel", "startuptime",
+		"tsplayground", "PlenaryTestPopup",
 	},
 	callback = function(event)
 		vim.bo[event.buf].buflisted = false
