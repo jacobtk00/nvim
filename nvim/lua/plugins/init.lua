@@ -317,6 +317,16 @@ return {
 		end,
 	},
 	{
+		"CopilotC-Nvim/CopilotChat.nvim",
+		branch = "canary",
+		event = "BufRead",
+		dependencies = {
+			{ "github/copilot.vim" },
+			{ "nvim-lua/plenary.nvim" },
+		},
+		opts = { debug = true },
+	},
+	{
 		"sindrets/diffview.nvim",
 		dependencies = { "nvim-lua/plenary.nvim" },
 		cmd = { "DiffviewOpen", "DiffviewClose", "DiffviewToggleFiles", "DiffviewFocusFiles" },

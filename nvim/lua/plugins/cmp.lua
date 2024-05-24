@@ -16,14 +16,12 @@ function CMP.config()
 	local cmp = require("cmp")
 	local luasnip = require("luasnip")
 	require("luasnip.loaders.from_vscode").lazy_load()
-	luasnip.config.setup({})
+	require("configs.snippets").configure_snippets()
 
 	cmp.setup({
 		snippet = {
 			expand = function(args)
-				-- luasnip.lsp_expand(args.body)
-				require("luasnip.loaders.from_vscode").lazy_load()
-				require("luasnip").lsp_expand(args.body)
+				luasnip.lsp_expand(args.body)
 			end,
 		},
 		completion = { completeopt = "menu,menuone,noinsert", docs_initially_visible = false },
