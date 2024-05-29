@@ -32,6 +32,7 @@ local return_filename = function()
 	return vim.fn.fnamemodify(vim.fn.expand('%'), ':t')
 end
 
+
 function M.configure_snippets()
 	local ls = require("luasnip")
 	local s = ls.snippet
@@ -62,6 +63,31 @@ function M.configure_snippets()
 	local k = require("luasnip.nodes.key_indexer").new_key
 
 	local snippets = {
+		s("ns", {
+			t("namespace "),
+			f(function()
+				local s = vim.lsp.buf.list_workspace_folders()
+
+				local smallest_string = s[1]
+				for i, v in ipairs(s) do
+					if string.len(v) < string.len(smallest_string) then
+						smallest_string = v
+					end
+				end
+
+				local last_slash_idx = 0
+				for i = string.len(smallest_string), 1, -1 do
+					if string.sub(smallest_string, i, i) == '/' then
+						last_slash_idx = i
+						break
+					end
+				end
+
+				local curr_dir = vim.fn.expand('%:p:h')
+				return curr_dir:sub(last_slash_idx + 1):gsub('/', '.'):gsub('\\', '')
+			end),
+			t(";"),
+		}),
 
 		s(
 			'regex match',
@@ -260,7 +286,8 @@ function M.configure_snippets()
                 <para>{}</para>
                 ]],
 							{
-								i(1, 'Specifies a paragraph of text. This is used to separate text inside the remarks tag'),
+								i(1,
+									'Specifies a paragraph of text. This is used to separate text inside the remarks tag'),
 							}
 						)
 					),
