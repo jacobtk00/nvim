@@ -277,15 +277,30 @@ return {
 		opts = {
 			on_attach = function(bufnr)
 				local gs = package.loaded.gitsigns
-				local function map(mode, l, r, desc)
-					local opts = { desc = desc }
+				local function map(mode, l, r, desc )
+					local opts = { desc = desc, silent = true }
 					opts.buffer = bufnr
 					vim.keymap.set(mode, l, r, opts)
 				end
+
+				-- Navigation
+				map('n', ']h', function()
+				  if vim.wo.diff then
+					vim.cmd.normal({']h', bang = true})
+				  else
+					gs.nav_hunk('next')
+				  end
+				end)
+
+				map('n', '[h', function()
+				  if vim.wo.diff then
+					vim.cmd.normal({'[h', bang = true})
+				  else
+					gs.nav_hunk('prev')
+				  end
+				end)
 				-- Actions
 				map({ "n", "v" }, "<leader>gr", ":Gitsigns reset_hunk<CR>")
-				map("n", "]h", "<cmd>Gitsigns next_hunk<CR>", "Next Hunk")
-				map("n", "[h", "<cmd>Gitsigns prev_hunk<CR>", "Prev Hunk")
 				map("n", "<leader>gs", gs.stage_buffer, "Stage Buffer")
 				map("n", "<leader>gu", gs.undo_stage_hunk, "Undo Stage Hunk")
 				map("n", "<leader>gR", gs.reset_buffer, "Reset Buffer")
