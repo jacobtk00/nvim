@@ -163,13 +163,14 @@ return {
 			},
 		},
 		config = function()
-			local trouble, err = require("trouble.providers.telescope")
+			-- local trouble, err = require("trouble.providers.telescope")
+			local trouble, err = require("trouble.sources.telescope")
 			if not err then
 				require("telescope").setup({
 					defaults = {
 						mappings = {
-							i = { ["<c-q>"] = trouble.open_with_trouble, ["<c-f>"] = require("telescope.actions").smart_send_to_qflist },
-							n = { ["<c-q>"] = trouble.open_with_trouble },
+							i = { ["<c-q>"] = trouble.open, ["<c-f>"] = require("telescope.actions").smart_send_to_qflist },
+							n = { ["<c-q>"] = trouble.open },
 						},
 					},
 				})
@@ -277,7 +278,7 @@ return {
 		opts = {
 			on_attach = function(bufnr)
 				local gs = package.loaded.gitsigns
-				local function map(mode, l, r, desc )
+				local function map(mode, l, r, desc)
 					local opts = { desc = desc, silent = true }
 					opts.buffer = bufnr
 					vim.keymap.set(mode, l, r, opts)
@@ -285,19 +286,19 @@ return {
 
 				-- Navigation
 				map('n', ']h', function()
-				  if vim.wo.diff then
-					vim.cmd.normal({']h', bang = true})
-				  else
-					gs.nav_hunk('next')
-				  end
+					if vim.wo.diff then
+						vim.cmd.normal({ ']h', bang = true })
+					else
+						gs.nav_hunk('next')
+					end
 				end)
 
 				map('n', '[h', function()
-				  if vim.wo.diff then
-					vim.cmd.normal({'[h', bang = true})
-				  else
-					gs.nav_hunk('prev')
-				  end
+					if vim.wo.diff then
+						vim.cmd.normal({ '[h', bang = true })
+					else
+						gs.nav_hunk('prev')
+					end
 				end)
 				-- Actions
 				map({ "n", "v" }, "<leader>gr", ":Gitsigns reset_hunk<CR>")
@@ -338,6 +339,9 @@ return {
 		dependencies = {
 			{ "github/copilot.vim" },
 			{ "nvim-lua/plenary.nvim" },
+		},
+		keys = {
+			{ "<leader>cc", "<cmd>CopilotChatToggle<cr>", desc = "Copilot Chat" },
 		},
 		opts = { debug = true },
 	},
