@@ -1,5 +1,6 @@
 local M = {
-	"jose-elias-alvarez/null-ls.nvim",
+	-- "jose-elias-alvarez/null-ls.nvim",
+	"nvimtools/none-ls.nvim"
 }
 
 function M.setup(options)
@@ -17,16 +18,17 @@ function M.setup(options)
 		}),
 		formatting.google_java_format,
 		formatting.goimports, -- need to add to path
+		-- formatting.astyle,
 		code_actions.impl,
 		code_actions.gitsigns,
 		code_actions.gomodifytags,
-		formatting.eslint_d,
-		code_actions.eslint_d.with({
-			only_local = "node_modules/.bin/eslint",
-		}),
-		diagnostics.eslint_d.with({
-			diagnostics_format = "[eslint] #{m}\n(#{c})",
-		}),
+		-- formatting.eslint_d,
+		-- code_actions.eslint_d.with({
+		-- 	only_local = "node_modules/.bin/eslint",
+		-- }),
+		-- diagnostics.eslint_d.with({
+		-- 	diagnostics_format = "[eslint] #{m}\n(#{c})",
+		-- }),
 		-- require("typescript.extensions.null-ls.code-actions"),
 	}
 	--root_dir = require("null-ls.utils").root_pattern(".null-ls-root", ".neoconf.json", ".git"),
