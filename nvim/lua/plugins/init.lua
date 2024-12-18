@@ -1,5 +1,20 @@
 return {
 	{
+		"seblj/roslyn.nvim",
+		ft = "cs",
+		opts = {
+			-- disable if slow
+			filewatching = true,
+			config = {
+				settings = {
+					["csharp|inlay_hints"] = {
+						dotnet_enable_inlay_hints_for_object_creation_parameters = false,
+					}
+				}
+			}
+		}
+	},
+	{
 		'mrcjkb/rustaceanvim',
 		version = '^3', -- Recommended
 		ft = { 'rust' },
@@ -334,7 +349,7 @@ return {
 	},
 	{
 		"CopilotC-Nvim/CopilotChat.nvim",
-		branch = "canary",
+		branch = "main",
 		event = "BufRead",
 		dependencies = {
 			{ "github/copilot.vim" },
@@ -404,11 +419,11 @@ return {
 			vim.g.matchup_matchparen_offscreen = { method = "status_manual" }
 		end,
 	},
-	{
-		"NvChad/nvim-colorizer.lua",
-		lazy = false,
-		config = function()
-			require("colorizer").setup()
-		end,
-	},
+	-- {
+	-- 	"NvChad/nvim-colorizer.lua",
+	-- 	lazy = false,
+	-- 	config = function()
+	-- 		require("colorizer").setup()
+	-- 	end,
+	-- },
 }

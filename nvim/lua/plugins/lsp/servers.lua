@@ -2,7 +2,7 @@ local servers = {
 	clangd = {},
 	-- gopls = {},
 	-- rust_analyzer = {},
-	tsserver = {},
+	ts_ls = {},
 	html = { filetypes = { "html", "twig", "hbs" } },
 	lua_ls = {
 		Lua = {
@@ -11,10 +11,14 @@ local servers = {
 			diagnostics = { globals = { "vim" } },
 		},
 	},
-	omnisharp = {
-		-- cmd = { "/usr/bin/omnisharp", "--languageserver" },
-		-- filetypes = { "cs" },
-		-- root_dir = require("lspconfig").util.root_pattern("*.sln", "*.csproj", "*.fsproj"),
+	-- omnisharp = {
+	-- 	-- cmd = { "/usr/bin/omnisharp", "--languageserver" },
+	-- 	-- filetypes = { "cs" },
+	-- 	-- root_dir = require("lspconfig").util.root_pattern("*.sln", "*.csproj", "*.fsproj"),
+	-- },
+	jsonls = {
+		schemas = require('schemastore').json.schemas(),
+		validate = { enable = true },
 	},
 	yamlls = {
 		yaml = {
@@ -66,3 +70,4 @@ local servers = {
 }
 
 return servers
+
