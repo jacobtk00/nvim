@@ -32,7 +32,7 @@ function LSP.config()
 	mason_lspconfig.setup({ ensure_installed = vim.tbl_keys(servers) })
 	mason_lspconfig.setup_handlers({
 		function(server_name)
-			if server_name ~= "jdtls" then
+			if server_name ~= "jdtls" and server_name ~= "omnisharp" then
 				require("lspconfig")[server_name].setup({
 					capabilities = capabilities,
 					on_attach = on_attach,
@@ -43,11 +43,14 @@ function LSP.config()
 			end
 		end,
 	})
+
+
 	require("plugins.null-ls").setup({
 		on_attach = on_attach,
 		capabilities = capabilities,
 	})
 	require("telescope").load_extension("yaml_schema")
+	require("fidget").setup()
 end
 
 return LSP
