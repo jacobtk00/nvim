@@ -1,5 +1,4 @@
 local M = {
-	-- "jose-elias-alvarez/null-ls.nvim",
 	"nvimtools/none-ls.nvim"
 }
 
@@ -18,6 +17,7 @@ function M.setup(options)
 		}),
 		formatting.google_java_format,
 		formatting.goimports, -- need to add to path
+		formatting.csharpier,
 		-- formatting.astyle,
 		code_actions.impl,
 		code_actions.gitsigns,
