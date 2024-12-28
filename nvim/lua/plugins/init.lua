@@ -1,23 +1,17 @@
 return {
 	{
+		"folke/ts-comments.nvim",
+		opts = {},
+		event = "VeryLazy",
+		enabled = vim.fn.has("nvim-0.10.0") == 1,
+	},
+	{
 		"seblj/roslyn.nvim",
 		ft = "cs",
 		opts = {
 			-- disable if slow
 			filewatching = true,
-			config = {
-				settings = {
-					["csharp|inlay_hints"] = {
-						dotnet_enable_inlay_hints_for_object_creation_parameters = false,
-					}
-				}
-			}
 		}
-	},
-	{
-		'mrcjkb/rustaceanvim',
-		version = '^3', -- Recommended
-		ft = { 'rust' },
 	},
 	{
 		"stevearc/oil.nvim",
@@ -32,73 +26,28 @@ return {
 		},
 	},
 	{
-		"ThePrimeagen/harpoon",
-		keys = {
-			{
-				"<leader>tu",
-				function()
-					require("harpoon.ui").toggle_quick_menu()
-				end,
-				desc = "Harpoon",
-			},
-			{
-				"<leader>tm",
-				function()
-					require("harpoon.mark").add_file()
-				end,
-				desc = "Harpoon Add",
-			},
-			{
-				"]t",
-				function()
-					require("harpoon.ui").nav_next()
-				end,
-				desc = "Harpoon Next [t]ag",
-			},
-			{
-				"[t",
-				function()
-					require("harpoon.ui").nav_prev()
-				end,
-				desc = "Harpoon Prev [t]ag",
-			},
-		},
-	},
-	{
 		"danymat/neogen",
 		dependencies = "nvim-treesitter/nvim-treesitter",
 		config = true,
 		keys = {
+			{ "<leader>nn", "<cmd>Neogen<cr>",       desc = "Neogen Func" },
 			{ "<leader>nc", "<cmd>Neogen class<cr>", desc = "Neogen Class" },
 			{ "<leader>nf", "<cmd>Neogen func<cr>",  desc = "Neogen Func" },
 		},
+		opts = {
+			languages = {
+				cs  = { template = { annotation_convention = "xmldoc" } },
+				go  = { template = { annotation_convention = "godoc" } },
+				lua = { template = { annotation_convention = "emmylua" } },
+				sh  = { template = { annotation_convention = "google_bash" } },
+			}
+		}
 		-- Uncomment next line if you want to follow only stable versions
 		-- version = "*"
 	},
 
+
 	-- UI
-	{
-		"folke/tokyonight.nvim",
-		lazy = false,
-		priority = 1000,
-		config = function()
-			require("tokyonight").setup({
-				style = "night",
-				transparent = true,
-				styles = { sidebars = "transparent", floats = "transparent" },
-			})
-			vim.cmd("colorscheme tokyonight")
-		end,
-	},
-
-	-- {
-	-- 	"Mofiqul/vscode.nvim",
-	-- 	init = function()
-	-- 		require("vscode").load()
-	-- 	end,
-	-- 	priority = 1000,
-	-- },
-
 	{
 		"stevearc/dressing.nvim",
 		-- commit = "1f2d120",

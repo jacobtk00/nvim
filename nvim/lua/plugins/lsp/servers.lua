@@ -70,4 +70,3 @@ local servers = {
 }
 
 return servers
-
