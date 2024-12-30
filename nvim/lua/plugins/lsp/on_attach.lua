@@ -2,8 +2,13 @@ local on_attach = function(client, buffer)
 	-- local cap = client.server_capabilities
 	-- client.server_capabilities.semanticTokensProvider = nil
 	-- if client.name == "gopls" then
+	vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(
+		vim.lsp.handlers.hover, {
+			border = 'single'
+		}
+	)
 	local keymaps = {
-		{ "<C-k>",       "<cmd>lua vim.lsp.buf.signature_help()<CR>",                                           desc = "Signature Help",      mode = "i" },
+		{ "<C-k>",       "<cmd>lua vim.lsp.buf.signature_help()<CR>",                                           desc = "Signature Help",       mode = "i" },
 		{ "<leader>a",   group = "Code Action" },
 		{ "<leader>ac",  vim.lsp.buf.code_action,                                                               desc = "Code Action" },
 		{ "<leader>c",   group = "code" },
@@ -14,7 +19,7 @@ local on_attach = function(client, buffer)
 		{ "<leader>cll", "<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>",               desc = "List Folders" },
 		{ "<leader>clr", "<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>",                                  desc = "Remove Folder" },
 		{ "<leader>r",   "<cmd>lua vim.lsp.buf.rename()<CR>",                                                   desc = "Rename" },
-		{ "<leader>xd",  "<cmd>Telescope diagnostics<cr>",                                                      desc = "Search Diagnostics" },
+		{ "<leader>xd",  "<cmd>Telescope diagnostics<cr>",                                                      desc = "Telescope Diagnostics" },
 		{ "K",           "<cmd>lua vim.lsp.buf.hover()<CR>",                                                    desc = "Hover" },
 		{ "[d",          "<cmd>lua vim.diagnostic.goto_prev()<CR>",                                             desc = "Next Diagnostic" },
 		{ "[e",          "<cmd>lua vim.diagnostic.goto_prev({severity = vim.diagnostic.severity.ERROR})<CR>",   desc = "Next Error" },
