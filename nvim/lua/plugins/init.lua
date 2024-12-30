@@ -42,8 +42,6 @@ return {
 				sh  = { template = { annotation_convention = "google_bash" } },
 			}
 		}
-		-- Uncomment next line if you want to follow only stable versions
-		-- version = "*"
 	},
 
 
@@ -69,6 +67,16 @@ return {
 				globalstatus = true,
 			},
 		},
+	},
+	{
+		"folke/styler.nvim",
+		config = function()
+			require("styler").setup({
+				themes = {
+					DiffView = { colorscheme = "tokyonight-night" },
+				},
+			})
+		end,
 	},
 
 	-- Desperately need
@@ -229,10 +237,11 @@ return {
 	{
 		"folke/trouble.nvim",
 		dependencies = { "nvim-tree/nvim-web-devicons" },
-		opts = { auto_open = false, use_diagnostic_signs = true },
+		opts = { auto_open = false, use_diagnostic_signs = true, focus = true },
 		keys = {
-			{ "<leader>xx", "<cmd>TroubleToggle workspace_diagnostics<cr>", desc = "Trouble" },
-			{ "<leader>gr", "<cmd>TroubleToggle lsp_references<cr>",        desc = "Trouble References" },
+			{ "<leader>xx", "<cmd>Trouble diagnostics<cr>",                                                 desc = "Trouble Diagnostic" },
+			{ "<leader>xe", "<cmd>Trouble diagnostics filter.severity = vim.diagnostic.severity.ERROR<cr>", desc = "Trouble Error" },
+			{ "<leader>gr", "<cmd>Trouble lsp_references<cr>",                                              desc = "Trouble References" },
 		},
 		lazy = false
 	},
@@ -347,19 +356,6 @@ return {
 				end,
 			},
 		},
-	},
-	{
-		"folke/tokyonight.nvim",
-	},
-	{
-		"folke/styler.nvim",
-		config = function()
-			require("styler").setup({
-				themes = {
-					DiffView = { colorscheme = "tokyonight-night" },
-				},
-			})
-		end,
 	},
 	{
 		"andymass/vim-matchup",

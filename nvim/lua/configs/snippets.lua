@@ -179,7 +179,7 @@ function M.configure_snippets()
 			'regex match',
 			fmt(
 				[[
-        if(Regex.IsMatch({}, @"{}"))
+        if (Regex.IsMatch({}, @"{}"))
         {{
             {}
         }}
