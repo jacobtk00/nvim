@@ -77,7 +77,7 @@ local namespace_for_current_file_from_dir = function(root_dir)
 	return curr_dir:sub(last_slash_idx + 1):gsub('/', '.'):gsub('\\', '')
 end
 
-local get_csharp_namespace = function()
+local get_csharp_namespace_options = function()
 	local base_dir_to_check = base_workspace_folder()
 
 	-- Check if theres a .sln, if that doesnt exist use .csproj
@@ -111,6 +111,33 @@ local get_csharp_namespace = function()
 		table.insert(ns, namespace)
 	end
 	return ns
+end
+
+local unique_strings = function(tbl)
+	local found = {}
+	local res = {}
+
+	for _, v in ipairs(tbl) do
+		if type(v) == 'string' and not found[v] then
+			table.insert(res, v)
+			found[v] = true
+		end
+	end
+
+	return res
+end
+
+local get_csharp_namespace = function()
+	local namespace_opts = get_csharp_namespace_options()
+	if type(namespace_opts) == 'string' then
+		return namespace_opts
+	end
+
+	local opts = unique_strings(namespace_opts)
+	if #opts < 1 then
+		return 'No namespace found'
+	end
+	return opts[1]
 end
 
 function M.configure_snippets()
@@ -148,12 +175,35 @@ function M.configure_snippets()
 		end
 	end, { silent = true })
 
+	local function create_template(construct)
+		local template_with_construct = string.format(
+			[[
+				namespace {};
+
+				public %s {}
+				{{
+					{}
+				}}
+			]],
+			construct
+		)
+
+		return fmt(
+			template_with_construct,
+			{
+				f(function() return get_csharp_namespace() end),
+				f(function() return vim.fn.expand('%:t:r') end),
+				i(0),
+			}
+		)
+	end
+
 	local csharp = {
 		-- Tries to get the correct namespace
 		s("ns", {
 			t("namespace "),
 			d(1, function()
-				local options = get_csharp_namespace()
+				local options = get_csharp_namespace_options()
 				if type(options) == 'string' then
 					return sn(nil, { t('string') })
 				end
@@ -169,6 +219,12 @@ function M.configure_snippets()
 			end),
 			t(";"),
 		}),
+
+		s("class-template", create_template("class")),
+		s("interface-template", create_template("interface")),
+		s("struct-template", create_template("struct")),
+		s("enum-template", create_template("enum")),
+
 		-- s("ns", {
 		-- 	t("namespace "),
 		-- 	f(get_csharp_namespace),
