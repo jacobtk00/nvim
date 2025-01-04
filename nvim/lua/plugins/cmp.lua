@@ -14,7 +14,7 @@ local CMP = {
 	},
 	version = '*',
 	opts = {
-		keymap = { preset = 'enter' },
+		keymap = { preset = 'enter', ['<c-h>'] = {} },
 		appearance = {
 			-- use_nvim_cmp_as_default = true,
 			nerd_font_variant = 'mono'
@@ -49,12 +49,12 @@ local CMP = {
 			jump = function(direction) require('luasnip').jump(direction) end,
 		},
 		sources = {
-			default = { 'lsp', 'path', 'luasnip', 'snippets', 'buffer' },
+			default = { 'lsp', 'luasnip', 'path', 'snippets', 'buffer' },
 			cmdline = {},
 		},
 		signature = { enabled = true },
 		enabled = function()
-			return not vim.tbl_contains({ "DressingInput", "markdown" }, vim.bo.filetype)
+			return not vim.tbl_contains({ "DressingInput", "markdown", "copilot-chat" }, vim.bo.filetype)
 				and vim.bo.buftype ~= "prompt"
 				and vim.b.completion ~= false
 		end,

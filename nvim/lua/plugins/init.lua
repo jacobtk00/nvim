@@ -296,21 +296,19 @@ return {
 	},
 	{ "folke/which-key.nvim", opts = {} },
 	{
-		"github/copilot.vim",
-		event = "BufRead",
-		lazy = true,
-		init = function()
-			vim.g.copilot_no_tab_map = true
-			vim.api.nvim_set_keymap("i", "<C-h>", 'copilot#Accept("<CR>")', { silent = true, expr = true })
-			vim.g.copilot_filetypes = { ["DressingSelect"] = false, ["DressingInput"] = false }
-		end,
+		"zbirenbaum/copilot.lua",
+		cmd = "Copilot",
+		event = "BufReadPost",
+		opts = {
+			suggestion = { enabled = true, auto_trigger = true, keymap = { accept = "<C-h>" } },
+		}
 	},
 	{
 		"CopilotC-Nvim/CopilotChat.nvim",
 		branch = "main",
 		event = "BufRead",
 		dependencies = {
-			{ "github/copilot.vim" },
+			{ "zbirenbaum/copilot.lua" },
 			{ "nvim-lua/plenary.nvim" },
 		},
 		keys = {
