@@ -200,30 +200,40 @@ function M.configure_snippets()
 
 	local csharp = {
 		-- Tries to get the correct namespace
-		s("ns", {
-			t("namespace "),
-			d(1, function()
-				local options = get_csharp_namespace_options()
-				if type(options) == 'string' then
-					return sn(nil, { t('string') })
-				end
+		-- s("ns", {
+		-- 	t("namespace "),
+		-- 	d(1, function()
+		-- 		local options = get_csharp_namespace_options()
+		-- 		if type(options) == 'string' then
+		-- 			return sn(nil, { t('string') })
+		-- 		end
+		--
+		-- 		local tnodes = {}
+		-- 		for _, option in ipairs(options) do
+		-- 			table.insert(tnodes, t(option))
+		-- 		end
+		-- 		return
+		-- 			sn(nil, {
+		-- 				c(1, tnodes),
+		-- 			})
+		-- 	end),
+		-- 	t(";"),
+		-- }),
 
-				local tnodes = {}
-				for _, option in ipairs(options) do
-					table.insert(tnodes, t(option))
-				end
-				return
-					sn(nil, {
-						c(1, tnodes),
-					})
-			end),
-			t(";"),
-		}),
+		s("ns", fmt([[
+			namespace {};
 
+			{}
+		]], {
+			f(function() return get_csharp_namespace() end),
+			i(0),
+		})),
 		s("class-template", create_template("class")),
 		s("interface-template", create_template("interface")),
 		s("struct-template", create_template("struct")),
 		s("enum-template", create_template("enum")),
+		s("abstract-class-template", create_template("abstract class")),
+		s("static-class-template", create_template("static class")),
 
 		-- s("ns", {
 		-- 	t("namespace "),
