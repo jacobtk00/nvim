@@ -228,6 +228,14 @@ function M.configure_snippets()
 			f(function() return get_csharp_namespace() end),
 			i(0),
 		})),
+		s("namespace-template", fmt([[
+			namespace {};
+
+			{}
+		]], {
+			f(function() return get_csharp_namespace() end),
+			i(0),
+		})),
 		s("class-template", create_template("class")),
 		s("interface-template", create_template("interface")),
 		s("struct-template", create_template("struct")),

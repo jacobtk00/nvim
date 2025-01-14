@@ -1,7 +1,7 @@
 local CMP = {
 	'saghen/blink.cmp',
 	dependencies = {
-		'rafamadriz/friendly-snippets',
+		-- 'rafamadriz/friendly-snippets',
 		{
 			'L3MON4D3/LuaSnip',
 			version = 'v2.*',
@@ -37,20 +37,28 @@ local CMP = {
 			},
 		},
 		snippets = {
-			expand = function(snippet)
-				require('luasnip').lsp_expand(snippet)
-			end,
-			active = function(filter)
-				if filter and filter.direction then
-					return require('luasnip').jumpable(filter.direction)
-				end
-				return require('luasnip').in_snippet()
-			end,
-			jump = function(direction) require('luasnip').jump(direction) end,
+			preset = 'luasnip',
+			-- expand = function(snippet)
+			-- 	require('luasnip').lsp_expand(snippet)
+			-- end,
+			-- active = function(filter)
+			-- 	if filter and filter.direction then
+			-- 		return require('luasnip').jumpable(filter.direction)
+			-- 	end
+			-- 	return require('luasnip').in_snippet()
+			-- end,
+			-- jump = function(direction) require('luasnip').jump(direction) end,
 		},
 		sources = {
-			default = { 'lsp', 'luasnip', 'path', 'snippets', 'buffer' },
+			default = { 'lsp', 'snippets', 'path', 'buffer' },
 			cmdline = {},
+			-- providers = {
+			-- 	snippets = {
+			-- 		should_show_items = function(ctx)
+			-- 			return ctx.trigger.initial_kind ~= 'trigger_character'
+			-- 		end
+			-- 	}
+			-- }
 		},
 		signature = { enabled = true },
 		enabled = function()
