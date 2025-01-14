@@ -1,5 +1,10 @@
 return {
 	{
+		'MoaidHathot/dotnet.nvim',
+		cmd = "DotnetUI",
+		opts = {},
+	},
+	{
 		"folke/ts-comments.nvim",
 		opts = {},
 		event = "VeryLazy",
@@ -7,7 +12,8 @@ return {
 	},
 	{
 		"seblj/roslyn.nvim",
-		ft = "cs",
+		event = { "BufReadPre", "BufNewFile" },
+		-- ft = "cs",
 		opts = {
 			-- disable if slow
 			filewatching = true,
@@ -149,41 +155,11 @@ return {
 			end
 		end,
 		keys = {
-			{
-				"<leader>fo",
-				function()
-					require("telescope.builtin").oldfiles()
-				end,
-				desc = "Find [O]ld",
-			},
-			{
-				"<leader>b",
-				function()
-					require("telescope.builtin").buffers()
-				end,
-				desc = "Find [B]uffers",
-			},
-			{
-				"<leader>fp",
-				function()
-					require("telescope.builtin").git_files()
-				end,
-				desc = "Find [P]roject",
-			},
-			{
-				"<leader>ff",
-				function()
-					require("telescope.builtin").find_files()
-				end,
-				desc = "Find [F]iles",
-			},
-			{
-				"<leader>fg",
-				function()
-					require("telescope.builtin").live_grep()
-				end,
-				desc = "Find [G]rep",
-			},
+			{ "<leader>fo", require("telescope.builtin").oldfiles,   desc = "Find [O]ld" },
+			{ "<leader>b",  require("telescope.builtin").buffers,    desc = "Find [B]uffers" },
+			{ "<leader>fp", require("telescope.builtin").git_files,  desc = "Find [P]roject" },
+			{ "<leader>ff", require("telescope.builtin").find_files, desc = "Find [F]iles" },
+			{ "<leader>fg", require("telescope.builtin").live_grep,  desc = "Find [G]rep" },
 		},
 	},
 	{
@@ -314,7 +290,7 @@ return {
 		keys = {
 			{ "<leader>cc", "<cmd>CopilotChatToggle<cr>", desc = "Copilot Chat" },
 		},
-		opts = { debug = true },
+		opts = {},
 	},
 	{
 		"sindrets/diffview.nvim",
