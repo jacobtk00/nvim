@@ -10,6 +10,8 @@ vim.wo.number = true
 opt.hlsearch = false
 opt.mouse = "a"
 opt.breakindent = true
+-- setlocal indentkeys-=:
+opt.indentkeys:remove(":")
 opt.undofile = true
 opt.undodir = os.getenv("HOME") .. "/.vim/undodir"
 opt.undofile = true
@@ -40,3 +42,5 @@ opt.shortmess:append("F") -- don't show file info when editing a file
 -- Set completeopt to have a better completion experience, noinsert mode btw
 opt.completeopt = "menuone,noselect,noinsert"
 opt.termguicolors = true
+
+vim.filetype.add({ extension = { razor = "razor" } })

@@ -14,6 +14,7 @@ local LSP = {
 		},
 		"b0o/SchemaStore.nvim",
 		"someone-stole-my-name/yaml-companion.nvim",
+		"nvim-telescope/telescope.nvim"
 	},
 }
 
