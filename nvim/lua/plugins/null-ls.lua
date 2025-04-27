@@ -18,6 +18,13 @@ function M.setup(options)
 		formatting.google_java_format,
 		formatting.goimports, -- need to add to path
 		formatting.csharpier,
+		-- formatting.clang_format.with({
+		-- 	extra_args = {
+		-- 		-- "-style=file:" .. vim.fn.expand("~/projects/C/.clang-format"),
+		-- 		"-style=file:~/.clang-format",
+		-- 		-- '-style="{IndentWidth: 8}"',
+		-- 	},
+		-- }),
 		-- formatting.astyle,
 		code_actions.impl,
 		code_actions.gitsigns,

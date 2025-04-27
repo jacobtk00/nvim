@@ -1,4 +1,4 @@
-local DEFAULT_THEME = "flow"
+local DEFAULT_THEME = "catppuccin"
 
 local config = function(plugin, opts)
 	if plugin.name == DEFAULT_THEME or plugin.name == DEFAULT_THEME .. ".nvim" then
@@ -46,4 +46,27 @@ return {
 		},
 		config = config,
 	},
+
+	{
+		"catppuccin/nvim",
+		name = "catppuccin",
+		lazy = false,
+		priority = 1000,
+		opts = {
+			flavour = "macchiato",
+			transparent_background = true,
+			integrations = {
+				telescope = true,
+				nvimtree = true,
+				which_key = true,
+				markdown = true,
+				cmp = true,
+				gitsigns = true,
+				lsp_trouble = true,
+				notify = true,
+				noice = true,
+			},
+		},
+		config = config,
+	}
 }

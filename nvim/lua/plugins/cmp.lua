@@ -49,9 +49,11 @@ local CMP = {
 			-- end,
 			-- jump = function(direction) require('luasnip').jump(direction) end,
 		},
+		cmdline = {
+			enabled = false
+		},
 		sources = {
 			default = { 'lsp', 'snippets', 'path', 'buffer' },
-			cmdline = {},
 			-- providers = {
 			-- 	snippets = {
 			-- 		should_show_items = function(ctx)
