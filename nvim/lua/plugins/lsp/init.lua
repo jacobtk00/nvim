@@ -27,25 +27,25 @@ function LSP.config()
 	-- capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
 	capabilities = require('blink.cmp').get_lsp_capabilities(capabilities)
 
-	-- Ensure the servers above are installed
 	require("mason").setup()
 	local mason_lspconfig = require("mason-lspconfig")
-
-	mason_lspconfig.setup({ ensure_installed = vim.tbl_keys(servers) })
-	mason_lspconfig.setup_handlers({
-		function(server_name)
-			if server_name ~= "jdtls" and server_name ~= "omnisharp" then
-				require("lspconfig")[server_name].setup({
-					capabilities = capabilities,
-					on_attach = on_attach,
-					settings = servers[server_name],
-					filetypes = (servers[server_name] or {}).filetypes,
-					flags = { debounce_text_changes = 150 },
-				})
-			end
-		end,
+	mason_lspconfig.setup({
+		ensure_installed = vim.tbl_keys(servers),
+		automatic_enable = false,
 	})
 
+	local lspconfig = require("lspconfig")
+	for server_name, server_config in pairs(servers) do
+		if server_name ~= "jdtls" and server_name ~= "omnisharp" then
+			lspconfig[server_name].setup({
+				capabilities = capabilities,
+				on_attach = on_attach,
+				settings = servers[server_name],
+				filetypes = (servers[server_name] or {}).filetypes,
+				flags = { debounce_text_changes = 150 },
+			})
+		end
+	end
 
 	require("plugins.null-ls").setup({
 		on_attach = on_attach,
