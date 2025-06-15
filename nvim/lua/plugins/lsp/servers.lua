@@ -27,6 +27,7 @@ local servers = {
 		validate = { enable = true },
 	},
 	yamlls = {
+		-- workspace_required = true,
 		yaml = {
 			format = {
 				enable = true,
@@ -46,9 +47,9 @@ local servers = {
 			-- },
 			-- schemas = require("schemastore").yaml.schemas(),
 			schemas = {
-				kubernetes = "*.yaml",
 				["https://raw.githubusercontent.com/microsoft/azure-pipelines-vscode/master/service-schema.json"] =
 				".pipelines/*.{yml,yaml}",
+				kubernetes = "*.yaml",
 				["http://json.schemastore.org/github-workflow"] = ".github/workflows/*",
 				["http://json.schemastore.org/github-action"] = ".github/action.{yml,yaml}",
 				["http://json.schemastore.org/ansible-stable-2.9"] = "roles/tasks/*.{yml,yaml}",
