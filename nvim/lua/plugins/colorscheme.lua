@@ -1,4 +1,4 @@
-local DEFAULT_THEME = "catppuccin"
+local DEFAULT_THEME = "vscode"
 
 local config = function(plugin, opts)
 	if plugin.name == DEFAULT_THEME or plugin.name == DEFAULT_THEME .. ".nvim" then

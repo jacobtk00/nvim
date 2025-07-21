@@ -32,7 +32,7 @@ local on_attach = function(client, buffer)
 		{ "gI",          "<cmd>Telescope lsp_implementations<CR>",                                                                     desc = "Goto Implementation" },
 		{ "gR",          "<cmd>Trouble lsp_references<cr>",                                                                            desc = "Trouble References" },
 		{ "gd",          "<cmd>Telescope lsp_definitions<cr>",                                                                         desc = "Goto Definition" },
-		{ "gi",          "<cmd>lua vim.lsp.buf.implementation()<CR>",                                                                  desc = "Goto Implementation" },
+		-- { "gi",          "<cmd>lua vim.lsp.buf.implementation()<CR>",                                                                  desc = "Goto Implementation" },
 		{ "gr",          "<cmd>Telescope lsp_references<cr>",                                                                          desc = "References" },
 		{ "gt",          "<cmd>Telescope lsp_type_definitions<cr>",                                                                    desc = "Goto Type Definition" },
 	}

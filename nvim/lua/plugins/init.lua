@@ -1,11 +1,19 @@
 return {
+	-- {
+	-- 	'anasinnyk/nvim-k8s-crd',
+	-- 	event = { 'BufEnter *.yaml' },
+	-- 	dependencies = { 'neovim/nvim-lspconfig' },
+	-- 	opts = {
+	-- 		cache_dir = vim.fn.expand("$HOME/.cache/nvim-k8s-crd/"),
+	-- 		k8s = { file_mask = "*.yaml", }
+	-- 	},
+	-- },
+	--{
 	{
-		'anasinnyk/nvim-k8s-crd',
-		event = { 'BufEnter *.yaml' },
-		dependencies = { 'neovim/nvim-lspconfig' },
-		opts = {
-			cache_dir = vim.fn.expand("$HOME/.cache/nvim-k8s-crd/"),
-			k8s = { file_mask = "*.yaml", }
+		"folke/zen-mode.nvim",
+		opts = {},
+		keys = {
+			{ "<leader>z", function() require("zen-mode").toggle() end, desc = "Zen Mode" },
 		},
 	},
 	{
@@ -283,7 +291,8 @@ return {
 	{
 		"zbirenbaum/copilot.lua",
 		cmd = "Copilot",
-		event = "BufReadPost",
+		-- event = "BufReadPost",
+		event = "InsertEnter",
 		opts = {
 			suggestion = { enabled = true, auto_trigger = true, keymap = { accept = "<C-h>" } },
 		}
