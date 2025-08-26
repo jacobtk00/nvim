@@ -16,11 +16,11 @@ return {
 			{ "<leader>z", function() require("zen-mode").toggle() end, desc = "Zen Mode" },
 		},
 	},
-	{
-		'MoaidHathot/dotnet.nvim',
-		cmd = "DotnetUI",
-		opts = {},
-	},
+	-- {
+	-- 	'MoaidHathot/dotnet.nvim',
+	-- 	cmd = "DotnetUI",
+	-- 	opts = {},
+	-- },
 	{
 		"folke/ts-comments.nvim",
 		opts = {},
@@ -28,12 +28,25 @@ return {
 		enabled = vim.fn.has("nvim-0.10.0") == 1,
 	},
 	{
+		"GustavEikaas/easy-dotnet.nvim",
+		dependencies = { "nvim-lua/plenary.nvim", 'nvim-telescope/telescope.nvim', },
+		config = function()
+			require("easy-dotnet").setup()
+		end,
+		cmd = "Dotnet",
+		ft = { "cs", "csproj", "sln", "slnx", "props", "csx", "targets" },
+	},
+
+	-- NOTE: if roslyn is not working, or switching between projects stops roslyn, it may be because a limit on notifications. try increasing the limit:
+	-- echo fs.inotify.max_user_instances=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
+	{
 		"seblj/roslyn.nvim",
 		event = { "BufReadPre", "BufNewFile" },
 		-- ft = "cs",
 		opts = {
 			-- disable if slow
-			filewatching = "auto",
+			-- filewatching = "roslyn",
+			-- broad_search = true,
 		}
 	},
 	{

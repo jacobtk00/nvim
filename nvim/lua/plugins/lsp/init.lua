@@ -27,7 +27,12 @@ function LSP.config()
 	-- capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
 	capabilities = require('blink.cmp').get_lsp_capabilities(capabilities)
 
-	require("mason").setup()
+	require("mason").setup({
+		registries = {
+			"github:mason-org/mason-registry",
+			"github:Crashdummyy/mason-registry",
+		},
+	})
 	local mason_lspconfig = require("mason-lspconfig")
 	mason_lspconfig.setup({
 		ensure_installed = vim.tbl_keys(servers),
