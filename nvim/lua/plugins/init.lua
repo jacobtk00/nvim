@@ -190,6 +190,13 @@ return {
 			{ "<leader>fp", require("telescope.builtin").git_files,  desc = "Find [P]roject" },
 			{ "<leader>ff", require("telescope.builtin").find_files, desc = "Find [F]iles" },
 			{ "<leader>fg", require("telescope.builtin").live_grep,  desc = "Find [G]rep" },
+			{
+				"<leader>fw",
+				function()
+					require("telescope.builtin").live_grep({ default_text = vim.fn.expand("<cword>") })
+				end,
+				desc = "Find [W]ord"
+			},
 		},
 	},
 	{
