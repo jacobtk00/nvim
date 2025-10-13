@@ -37,11 +37,9 @@ local on_attach = function(client, buffer)
 		{ "gt",          "<cmd>Telescope lsp_type_definitions<cr>",                                                                    desc = "Goto Type Definition" },
 	}
 
-	local is_lsp_buf = function()
-		return vim.api.nvim_get_current_buf() == buffer
-	end
+	-- Set keymaps conditionally if equal to the current buffer
 	for _, keymap in ipairs(keymaps) do
-		keymap.cond = is_lsp_buf
+		keymap.cond = function() return vim.api.nvim_get_current_buf() == buffer end
 	end
 
 	-- Create a command `:Format` local to the LSP buffer
