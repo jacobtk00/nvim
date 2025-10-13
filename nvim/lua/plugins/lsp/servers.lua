@@ -1,13 +1,16 @@
 local servers = {
 	clangd = {
 		cmd = {
-			"clangd",
+			"clangd"
+			-- "-std=c++23",
 			-- "--style=file:~/.clang-format"
 		},
 
 	},
 	-- gopls = {},
-	-- rust_analyzer = {},
+	rust_analyzer = {
+		filetypes = { "rust", "rs" },
+	},
 	ts_ls = {},
 	html = { filetypes = { "html", "twig", "hbs" } },
 	lua_ls = {

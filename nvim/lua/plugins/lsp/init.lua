@@ -39,16 +39,16 @@ function LSP.config()
 		automatic_enable = false,
 	})
 
-	local lspconfig = require("lspconfig")
 	for server_name, server_config in pairs(servers) do
 		if server_name ~= "jdtls" and server_name ~= "omnisharp" then
-			lspconfig[server_name].setup({
+			vim.lsp.config(server_name, {
 				capabilities = capabilities,
 				on_attach = on_attach,
 				settings = servers[server_name],
 				filetypes = (servers[server_name] or {}).filetypes,
 				flags = { debounce_text_changes = 150 },
 			})
+			vim.lsp.enable(server_name)
 		end
 	end
 
