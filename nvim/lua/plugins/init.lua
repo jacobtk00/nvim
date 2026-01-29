@@ -31,7 +31,7 @@ return {
 		"GustavEikaas/easy-dotnet.nvim",
 		dependencies = { "nvim-lua/plenary.nvim", 'nvim-telescope/telescope.nvim', },
 		config = function()
-			require("easy-dotnet").setup()
+			require("easy-dotnet").setup({ lsp = { enabled = false } })
 		end,
 		cmd = "Dotnet",
 		ft = { "cs", "csproj", "sln", "slnx", "props", "csx", "targets" },
@@ -208,6 +208,11 @@ return {
 			"MunifTanjim/nui.nvim",
 		},
 		opts = {
+			default_component_configs = {
+				file_size = { enabled = false },
+				last_modified = { enable = false },
+				type = { enabled = false },
+			},
 			close_if_last_window = true,
 			window = {
 				width = 25,
@@ -309,12 +314,25 @@ return {
 	},
 	{ "folke/which-key.nvim", opts = {} },
 	{
+		-- in case auth isnt working here is a way to manually set up access token:
+		-- 1. initiate device code flow:
+		-- curl -s https://github.com/login/device/code -X POST -d "client_id=Iv1.b507a08c87ecfe98&scope=read:user"
+		-- 3. go to github.com/login/device and enter the user_code to authorize
+		-- 2. get access token (replace DEVICE_CODE with the code received in step 1):
+		-- curl -s https://github.com/login/oauth/access_token -X POST -d "client_id=Iv1.b507a08c87ecfe98&device_code=YOUR_DEVICE_CODE&grant_type=urn:ietf:params:oauth:grant-type:device_code" | grep -o "access_token=[^&]*" | cut -d= -f2
+		-- edit the ~/.config/github-copilot/hosts.json file to include the access token:
+		-- {
+		--  "github.com": {
+		--  "user": "your_github_username",
+		--  "oauth_token": "your_access_token"
+		--  }
 		"zbirenbaum/copilot.lua",
 		cmd = "Copilot",
 		-- event = "BufReadPost",
 		event = "InsertEnter",
 		opts = {
 			suggestion = { enabled = true, auto_trigger = true, keymap = { accept = "<C-h>" } },
+			copilot_model = "GPT-5.2",
 		}
 	},
 	{
