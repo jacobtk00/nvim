@@ -197,6 +197,13 @@ return {
 				end,
 				desc = "Find [W]ord"
 			},
+			{
+				"<leader>fn",
+				function()
+					require("telescope.builtin").find_files({ default_text = vim.fn.expand("<cword>") })
+				end,
+				desc = "Find [N]amed File"
+			},
 		},
 	},
 	{
