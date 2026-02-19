@@ -1,4 +1,5 @@
 local servers = {
+	-- copilot = {},
 	clangd = {
 		cmd = {
 			"clangd"
