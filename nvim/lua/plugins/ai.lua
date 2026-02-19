@@ -24,12 +24,17 @@ local M = {
 			-- 	expr = true,
 			-- 	desc = "Goto/Apply Next Edit Suggestion",
 			-- },
+
+			-- because of how terrible windows terminal is, may need to add this to terminal config
+			-- {
+			--   "command": { "action": "sendInput", "input": "\u001b[46;5u" },
+			--   "keys": "ctrl+."
+			-- },
 			{
 				"<c-.>",
 				function() require("sidekick.cli").toggle() end,
 				desc = "Sidekick Toggle",
 				mode = { "n", "t", "i", "x" },
-				remap = true,
 			},
 			{
 				"<leader>aa",
