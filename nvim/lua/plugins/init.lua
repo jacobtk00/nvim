@@ -16,11 +16,6 @@ return {
 			{ "<leader>z", function() require("zen-mode").toggle() end, desc = "Zen Mode" },
 		},
 	},
-	-- {
-	-- 	'MoaidHathot/dotnet.nvim',
-	-- 	cmd = "DotnetUI",
-	-- 	opts = {},
-	-- },
 	{
 		"folke/ts-comments.nvim",
 		opts = {},
@@ -320,41 +315,6 @@ return {
 		},
 	},
 	{ "folke/which-key.nvim", opts = {} },
-	{
-		-- in case auth isnt working here is a way to manually set up access token:
-		-- 1. initiate device code flow:
-		-- curl -s https://github.com/login/device/code -X POST -d "client_id=Iv1.b507a08c87ecfe98&scope=read:user"
-		-- 3. go to github.com/login/device and enter the user_code to authorize
-		-- 2. get access token (replace DEVICE_CODE with the code received in step 1):
-		-- curl -s https://github.com/login/oauth/access_token -X POST -d "client_id=Iv1.b507a08c87ecfe98&device_code=YOUR_DEVICE_CODE&grant_type=urn:ietf:params:oauth:grant-type:device_code" | grep -o "access_token=[^&]*" | cut -d= -f2
-		-- edit the ~/.config/github-copilot/hosts.json file to include the access token:
-		-- {
-		--  "github.com": {
-		--  "user": "your_github_username",
-		--  "oauth_token": "your_access_token"
-		--  }
-		"zbirenbaum/copilot.lua",
-		cmd = "Copilot",
-		-- event = "BufReadPost",
-		event = "InsertEnter",
-		opts = {
-			suggestion = { enabled = true, auto_trigger = true, keymap = { accept = "<C-h>" } },
-			copilot_model = "GPT-5.2",
-		}
-	},
-	{
-		"CopilotC-Nvim/CopilotChat.nvim",
-		branch = "main",
-		event = "BufRead",
-		dependencies = {
-			{ "zbirenbaum/copilot.lua" },
-			{ "nvim-lua/plenary.nvim" },
-		},
-		keys = {
-			{ "<leader>cc", "<cmd>CopilotChatToggle<cr>", desc = "Copilot Chat" },
-		},
-		opts = {},
-	},
 	{
 		"sindrets/diffview.nvim",
 		dependencies = { "nvim-lua/plenary.nvim" },
