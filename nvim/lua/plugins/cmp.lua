@@ -53,7 +53,16 @@ local CMP = {
 			enabled = false
 		},
 		sources = {
-			default = { 'lsp', 'snippets', 'path', 'buffer' },
+			default = { 'lsp', "easy-dotnet", 'snippets', 'path', 'buffer' },
+			providers = {
+				["easy-dotnet"] = {
+					name = "easy-dotnet",
+					enabled = true,
+					module = "easy-dotnet.completion.blink",
+					score_offset = 10000,
+					async = true,
+				},
+			},
 			-- providers = {
 			-- 	snippets = {
 			-- 		should_show_items = function(ctx)

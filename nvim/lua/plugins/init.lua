@@ -26,7 +26,7 @@ return {
 		"GustavEikaas/easy-dotnet.nvim",
 		dependencies = { "nvim-lua/plenary.nvim", 'nvim-telescope/telescope.nvim', },
 		config = function()
-			require("easy-dotnet").setup({ lsp = { enabled = false } })
+			require("easy-dotnet").setup({ --[[  lsp = { enabled = false }  ]] })
 		end,
 		cmd = "Dotnet",
 		ft = { "cs", "csproj", "sln", "slnx", "props", "csx", "targets" },
@@ -37,6 +37,7 @@ return {
 	{
 		"seblj/roslyn.nvim",
 		event = { "BufReadPre", "BufNewFile" },
+		enabled = false,
 		-- ft = "cs",
 		opts = {
 			-- disable if slow

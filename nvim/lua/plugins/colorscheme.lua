@@ -1,4 +1,4 @@
-local DEFAULT_THEME = "vscode"
+local DEFAULT_THEME = "dracula"
 
 local config = function(plugin, opts)
 	if plugin.name == DEFAULT_THEME or plugin.name == DEFAULT_THEME .. ".nvim" then
@@ -8,6 +8,19 @@ local config = function(plugin, opts)
 end
 
 return {
+	{
+		"binhtran432k/dracula.nvim",
+		lazy = false,
+		priority = 1000,
+		opts = {
+			transparent = true,
+			styles = {
+				sidebars = "transparent",
+				floats = "transparent"
+			}
+		},
+		config = config,
+	},
 	{
 		"folke/tokyonight.nvim",
 		lazy = false,
