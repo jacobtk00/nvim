@@ -51,7 +51,7 @@ return {
 		keys = {
 			{ "-", "<cmd>Oil<cr>", desc = "Oil Dir" },
 		},
-		config = {
+		opts = {
 			keymaps = {
 				["q"] = "actions.close",
 			},
@@ -59,7 +59,7 @@ return {
 	},
 	{
 		"danymat/neogen",
-		dependencies = "nvim-treesitter/nvim-treesitter",
+		-- dependencies = "nvim-treesitter/nvim-treesitter",
 		config = true,
 		keys = {
 			{ "<leader>nn", "<cmd>Neogen<cr>",       desc = "Neogen Func" },
@@ -115,19 +115,55 @@ return {
 	{
 		"nvim-treesitter/nvim-treesitter",
 		build = ":TSUpdate",
-		event = "BufReadPost",
-		dependencies = { "windwp/nvim-ts-autotag" },
-		config = function()
-			require("nvim-treesitter.configs").setup({
-				ensure_installed = { "c", "go", "lua", "tsx", "typescript", "vimdoc", "vim", "bash", "comment" },
-				auto_install = false,
-				highlight = { enable = true, additional_vim_regex_highlighting = false },
-				indent = { enable = true },
-				autotag = { enable = true },
-				additional_vim_regex_highlighting = false,
+		event = "VeryLazy",
+		branch = "main",
+		init = function()
+			if vim.fn.executable("tree-sitter") == 0 then
+				vim.notify("tree-sitter is not installed, skipping setup", vim.log.levels.WARN)
+				return
+			end
+
+			vim.api.nvim_create_autocmd("FileType", {
+				callback = function()
+					-- Enable treesitter highlighting and disable regex syntax
+					pcall(vim.treesitter.start)
+					if vim.bo.filetype ~= "c_sharp" then
+						vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.identexpr()"
+					end
+				end,
 			})
+			local ensure_installed = { "c", "go", "lua", "tsx", "typescript",
+				"vimdoc", "vim", "bash", "comment", "c_sharp", "json", "yaml",
+				"html", "css", "scss", "dockerfile", "gitignore", "graphql",
+				"markdown", "diff", "rust", "gitcommit", "git_rebase",
+				"git_config", "gitattributes", "gitignore", "sql", "toml",
+				"make", "cmake", "http", "json", "query", "powershell"
+			}
+			local already_installed = require("nvim-treesitter.config").get_installed()
+			local parsersToInstall = vim.iter(ensure_installed)
+				:filter(function(parser)
+					return not vim.tbl_contains(already_installed, parser)
+				end)
+				:totable()
+			require("nvim-treesitter").install(parsersToInstall)
 		end,
 	},
+	-- {
+	-- 	"nvim-treesitter/nvim-treesitter",
+	-- 	build = ":TSUpdate",
+	-- 	event = "BufReadPost",
+	-- 	dependencies = { "windwp/nvim-ts-autotag" },
+	-- 	config = function()
+	-- 		require("nvim-treesitter.configs").setup({
+	-- 			ensure_installed = { "c", "go", "lua", "tsx", "typescript", "vimdoc", "vim", "bash", "comment" },
+	-- 			auto_install = false,
+	-- 			highlight = { enable = true, additional_vim_regex_highlighting = false },
+	-- 			indent = { enable = true },
+	-- 			autotag = { enable = true },
+	-- 			additional_vim_regex_highlighting = false,
+	-- 		})
+	-- 	end,
+	-- },
 	{
 		"folke/todo-comments.nvim",
 		dependencies = { "nvim-lua/plenary.nvim", "folke/trouble.nvim" },
