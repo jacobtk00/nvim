@@ -59,7 +59,6 @@ return {
 	},
 	{
 		"danymat/neogen",
-		dependencies = "nvim-treesitter/nvim-treesitter",
 		config = true,
 		keys = {
 			{ "<leader>nn", "<cmd>Neogen<cr>",       desc = "Neogen Func" },
@@ -111,22 +110,45 @@ return {
 		end,
 	},
 
-	-- Desperately need
+	-- Treesitter parsers (Neovim 0.12 handles highlight/indent natively)
 	{
 		"nvim-treesitter/nvim-treesitter",
 		build = ":TSUpdate",
-		event = "BufReadPost",
-		dependencies = { "windwp/nvim-ts-autotag" },
-		config = function()
-			require("nvim-treesitter.configs").setup({
-				ensure_installed = { "c", "go", "lua", "tsx", "typescript", "vimdoc", "vim", "bash", "comment" },
-				auto_install = false,
-				highlight = { enable = true, additional_vim_regex_highlighting = false },
-				indent = { enable = true },
-				autotag = { enable = true },
-				additional_vim_regex_highlighting = false,
+		event = "VeryLazy",
+		branch = "main",
+		init = function()
+			-- check if tree-sitter-cli is installed, and if not, skip treesitter setup
+			if vim.fn.executable("tree-sitter") == 0 then
+				vim.notify("tree-sitter-cli not found, skipping treesitter setup", vim.log.levels.WARN)
+				return
+			end
+			vim.api.nvim_create_autocmd('FileType', {
+				callback = function()
+					-- Enable treesitter highlighting and disable regex syntax
+					pcall(vim.treesitter.start)
+					-- Enable treesitter-based indentation
+					vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+				end,
 			})
+			local ensureInstalled = {
+				"c", "go", "lua", "tsx", "typescript", "vimdoc", "vim", "bash",
+				"c_sharp", "json", "yaml", "markdown", "markdown_inline", "diff", "query", "toml",
+				"gitcommit", "git_rebase", "gitattributes", "gitignore",
+			}
+			local alreadyInstalled = require('nvim-treesitter.config').get_installed()
+			local parsersToInstall = vim.iter(ensureInstalled)
+				:filter(function(parser)
+					return not vim.tbl_contains(alreadyInstalled, parser)
+				end)
+				:totable()
+			require('nvim-treesitter').install(parsersToInstall)
 		end,
+		-- config = function()
+		-- 	require("nvim-treesitter.configs").setup({
+		-- 		ensure_installed = { "c", "go", "lua", "tsx", "typescript", "vimdoc", "vim", "bash" },
+		-- 		auto_install = false,
+		-- 	})
+		-- end,
 	},
 	{
 		"folke/todo-comments.nvim",
@@ -222,6 +244,7 @@ return {
 				mappings = { ["u"] = "navigate_up" },
 			},
 			filesystem = {
+				group_empty_dirs = true,
 				hijack_netrw_behavior = "open_default",
 				filtered_items = {
 					hide_dotfiles = false,
@@ -246,6 +269,10 @@ return {
 			})
 		end,
 		keys = { "gc", "gb", "gcc", { "gc", mode = "v" }, { "gb", mode = "v" } },
+	},
+	{
+		"JoosepAlviste/nvim-ts-context-commentstring",
+		lazy = true,
 	},
 	{
 		"kylechui/nvim-surround",

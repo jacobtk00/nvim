@@ -2,6 +2,7 @@ local LSP = {
 	"neovim/nvim-lspconfig",
 	event = "BufReadPre",
 	dependencies = {
+		"mfussenegger/nvim-jdtls",
 		"williamboman/mason-lspconfig.nvim",
 		{ "williamboman/mason.nvim", config = true },
 		{

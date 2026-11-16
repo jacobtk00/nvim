@@ -76,8 +76,7 @@ local servers = {
 			},
 			flags = { debounce_text_changes = 150 },
 		},
-	},
-	jdtls = {},
+	}
 }
 
 return servers

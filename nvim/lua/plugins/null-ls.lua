@@ -15,7 +15,11 @@ function M.setup(options)
 				"--no-semi", --[[ "--tab-width=4"  ]]
 			},
 		}),
-		formatting.google_java_format,
+		formatting.google_java_format.with({
+			extra_args = {
+				"--aosp",
+			},
+		}),
 		formatting.goimports, -- need to add to path
 		formatting.csharpier,
 		-- formatting.clang_format.with({
