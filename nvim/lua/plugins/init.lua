@@ -51,7 +51,7 @@ return {
 		keys = {
 			{ "-", "<cmd>Oil<cr>", desc = "Oil Dir" },
 		},
-		config = {
+		opts = {
 			keymaps = {
 				["q"] = "actions.close",
 			},
@@ -117,7 +117,6 @@ return {
 		event = "VeryLazy",
 		branch = "main",
 		init = function()
-			-- check if tree-sitter-cli is installed, and if not, skip treesitter setup
 			if vim.fn.executable("tree-sitter") == 0 then
 				vim.notify("tree-sitter-cli not found, skipping treesitter setup", vim.log.levels.WARN)
 				return
@@ -134,6 +133,8 @@ return {
 				"c", "go", "lua", "tsx", "typescript", "vimdoc", "vim", "bash",
 				"c_sharp", "json", "yaml", "markdown", "markdown_inline", "diff", "query", "toml",
 				"gitcommit", "git_rebase", "gitattributes", "gitignore",
+				"comment", "html", "css", "scss", "dockerfile", "graphql", "rust", "git_config",
+				"sql", "make", "cmake", "http", "powershell", "java"
 			}
 			local alreadyInstalled = require('nvim-treesitter.config').get_installed()
 			local parsersToInstall = vim.iter(ensureInstalled)
@@ -143,12 +144,6 @@ return {
 				:totable()
 			require('nvim-treesitter').install(parsersToInstall)
 		end,
-		-- config = function()
-		-- 	require("nvim-treesitter.configs").setup({
-		-- 		ensure_installed = { "c", "go", "lua", "tsx", "typescript", "vimdoc", "vim", "bash" },
-		-- 		auto_install = false,
-		-- 	})
-		-- end,
 	},
 	{
 		"folke/todo-comments.nvim",
