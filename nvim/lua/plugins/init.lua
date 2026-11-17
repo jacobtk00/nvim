@@ -240,6 +240,7 @@ return {
 			},
 			filesystem = {
 				group_empty_dirs = true,
+				scan_mode = "deep",
 				hijack_netrw_behavior = "open_default",
 				filtered_items = {
 					hide_dotfiles = false,

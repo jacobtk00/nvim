@@ -2,16 +2,13 @@ local LSP = {
 	"neovim/nvim-lspconfig",
 	event = "BufReadPre",
 	dependencies = {
-		"mfussenegger/nvim-jdtls",
+		{ "mfussenegger/nvim-jdtls", dependencies = { "mfussenegger/nvim-dap" } },
 		"williamboman/mason-lspconfig.nvim",
 		{ "williamboman/mason.nvim", config = true },
 		{
 			"j-hui/fidget.nvim",
 			tag = "legacy",
 			event = "LspAttach",
-			enabled = function()
-				return vim.bo.filetype ~= "java"
-			end,
 		},
 		"b0o/SchemaStore.nvim",
 		"someone-stole-my-name/yaml-companion.nvim",
@@ -58,7 +55,9 @@ function LSP.config()
 		capabilities = capabilities,
 	})
 	require("telescope").load_extension("yaml_schema")
-	require("fidget").setup()
+	require("fidget").setup({
+		sources = { jdtls = { ignore = true } },
+	})
 end
 
 return LSP
