@@ -12,6 +12,7 @@ for _, jar in ipairs(vim.fn.glob(mason .. "java-test/extension/server/*.jar", tr
 		table.insert(bundles, jar)
 	end
 end
+vim.list_extend(bundles, require("spring_boot").java_extensions())
 local cmd = {
 	"jdtls",
 	"-data",

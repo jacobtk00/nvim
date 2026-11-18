@@ -384,6 +384,19 @@ return {
 			vim.g.matchup_matchparen_offscreen = { method = "status_manual" }
 		end,
 	},
+	{
+		"JavaHello/spring-boot.nvim",
+		ft = { "java", "yaml", "jproperties" },
+		dependencies = { "mfussenegger/nvim-jdtls", "williamboman/mason.nvim" },
+		main = "spring_boot",
+		opts = function()
+			return {
+				server = {
+					capabilities = require("blink.cmp").get_lsp_capabilities(),
+				},
+			}
+		end,
+	},
 	-- {
 	-- 	"NvChad/nvim-colorizer.lua",
 	-- 	lazy = false,
