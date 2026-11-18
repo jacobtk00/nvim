@@ -28,7 +28,7 @@ local on_attach = function(client, buffer)
 		{ "]e",          "<cmd>lua vim.diagnostic.jump({ count = 1, float = true, severity = vim.diagnostic.severity.ERROR })<CR>",    desc = "Next Error" },
 		{ "]w",          "<cmd>lua vim.diagnostic.jump({ count = 1, float = true, severity = vim.diagnostic.severity.WARNING })<CR>",  desc = "Next Warning" },
 		{ "g",           group = "goto" },
-		{ "gD",          "<cmd>Telescope lsp_declarations<CR>",                                                                        desc = "Goto Declaration" },
+		{ "gD",          "<cmd>lua vim.lsp.buf.declaration()<CR>",                                                                     desc = "Goto Declaration" },
 		{ "gI",          "<cmd>Telescope lsp_implementations<CR>",                                                                     desc = "Goto Implementation" },
 		{ "gR",          "<cmd>Trouble lsp_references<cr>",                                                                            desc = "Trouble References" },
 		{ "gd",          "<cmd>Telescope lsp_definitions<cr>",                                                                         desc = "Goto Definition" },

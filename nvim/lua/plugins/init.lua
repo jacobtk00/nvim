@@ -91,7 +91,6 @@ return {
 		event = "VeryLazy",
 		opts = {
 			options = {
-				disabled_filetypes = { statusline = { "java" } },
 				icons_enabled = true,
 				component_separators = "|",
 				section_separators = "",
